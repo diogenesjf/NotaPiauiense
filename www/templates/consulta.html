@@ -1,0 +1,43 @@
+<ion-view title="Consulta">
+    <ion-content padding="'true'" class="has-header">
+	    <div class="spacer" style="width: 300px; height: 35px;"></div>
+		<form name="form" ng-model="form">
+			<ion-list>
+                <label class="item item-input">
+                    <span class="input-label">CPF/CNPJ</span>
+                    <input type="text" placeholder="" name="cpfCnpj" ng-model="cpfCnpj" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Razão Social</span>
+                    <input type="text" placeholder="" name="razaoSocial" ng-model="razaoSocial" required>
+                </label>
+                <label class="item item-select">
+                    <span class="input-label">Tipo de documento</span>
+                    <select>
+                    	<option>Cupom Fiscal</option>
+                    	<option>Nota Fiscal</option>
+                    </select>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Número do documento</span>
+                    <input type="text" placeholder="" name="numDocumento" ng-model="numDocumento" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Série</span>
+                    <input type="text" placeholder="" name="serie" ng-model="serie" required>
+                </label>
+
+                <label class="item item-input">
+                    <span class="input-label">Data</span>
+					<ionic-datepicker input-obj="dataNota">
+					  <button class="button button-block button-clear"> {{dataNota.inputDate | date:'dd - MMMM - yyyy'}}</button>
+					</ionic-datepicker>
+                </label>
+
+				<ion-button ng-init="saveEmpty(form)" class="button button-block button-positive" ng-click="buscar(form)">
+		  				Buscar
+				</ion-button>
+			</ion-list>
+		</form>
+		</ion-content>
+</ion-view>

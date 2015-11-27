@@ -1,0 +1,81 @@
+.container-image-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.container-image-logo {
+    width: 50%;
+    height: 50%;
+}
+.container-image-footer {
+    width: 30%;
+    height: 30%;
+}
+.container-button-menu {
+  margin: auto;
+  width: 85%;
+  padding: 2px;
+}
+.container-full {
+    width: 100%;
+    height: auto;
+}
+.center-content span {
+  display:table;
+  margin:0 auto;
+}
+.container-button-menu .button {
+  font-size: 10px;
+  line-height: 10px; // Add
+}
+.container-button-menu .button-icon .icon {
+  display: block;
+  font-size: 30px;
+  margin-bottom: 3px !important;
+}
+
+
+.item-list-title {
+  font-size: 14px;
+  float: left;
+}
+.item-list-value {
+  font-size: 14px;
+  float: right;
+}  
+.container-saldo {
+    width: 100%;
+    height: 3rem;
+}
+.saldo {
+  font-size: 16px;
+  font-weight: bold;
+}
+.block-left {
+  float: left;
+}
+.block-right {
+  float: right;
+}
+
+
+.div-table{
+  display:table;         
+  width:100%;
+  top: 10px;         
+}
+.div-table-row{
+  display:table-row;
+  width:auto;
+  clear:both;
+}
+.div-table-col{
+  float:left;/*fix for  buggy browsers*/
+  display:table-column;         
+  width:auto;
+}
+.div-table-col-right{
+  float:right;/*fix for  buggy browsers*/
+  display:table-column;         
+  width:auto;
+}

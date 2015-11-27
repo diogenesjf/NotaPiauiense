@@ -1,0 +1,125 @@
+<ion-view title="Meus dados">
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-arrow-left-c" ng-click="voltar()">
+        </button>
+    </ion-nav-buttons>    
+	<ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-checklisk" ng-click="salvar()">
+        </button>
+    </ion-nav-buttons>    
+    <div class="bar bar-subheader">
+
+      <div class="button-bar">
+        <a class="button" ng-class="{'button-positive': isActive('pessoal')}" ng-click="setActive('pessoal');">Pessoal</a>
+        <a class="button" ng-class="{'button-positive': isActive('endereco')}" ng-click="setActive('endereco');">Endereço</a>
+        <a class="button" ng-class="{'button-positive': isActive('conta')}" ng-click="setActive('conta');">Conta</a>
+      </div>      
+
+    </div>
+
+    <ion-content padding="'true'" scroll="false" class="has-header has-subheader">
+    <div ng-show="isActive('pessoal')">
+            <form class="list">
+            <ion-list>
+                <label class="item item-input">
+                    <span class="input-label">Name</span>
+                    <input type="text" placeholder="">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Nome da Mãe</span>
+                    <input type="text" placeholder="">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">CPF</span>
+                    <input type="text" placeholder="">
+                </label>
+                <label class="item item-select">
+                    <span class="input-label">Data de nascimento</span>
+                    <select></select>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Telefone</span>
+                    <input type="text" placeholder="">
+                </label>
+            </ion-list>
+            <label class="item item-input">
+                <span class="input-label">Celular</span>
+                <input type="text" placeholder="">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Whatsapp</span>
+                <input type="text" placeholder="">
+            </label>
+        </form>
+    </div>
+    <div ng-show="isActive('endereco')">
+        <form class="list">
+            <ion-list>
+                <label class="item item-input">
+                    <span class="input-label">CEP</span>
+                    <input type="text" placeholder="">
+                </label>
+                <label class="item item-select">
+                    <span class="input-label">Logradouro</span>
+                    <select></select>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Endereço</span>
+                    <input type="text" placeholder="">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Número</span>
+                    <input type="text" placeholder="">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Complemento</span>
+                    <input type="text" placeholder="">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Bairro</span>
+                    <input type="text" placeholder="">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Município</span>
+                    <input type="text" placeholder="">
+                </label>
+                <label class="item item-select">
+                    <span class="input-label">UF</span>
+                    <select></select>
+                </label>
+            </ion-list>
+        </form>
+    </div>
+    <div ng-show="isActive('conta')">
+        <form class="list">
+            <ion-list>
+                <label class="item item-input">
+                    <span class="input-label">E-mail</span>
+                    <input type="text" placeholder="">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Confirma e-mail</span>
+                    <input type="text" placeholder="">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Senha</span>
+                    <input type="text" placeholder="">
+                </label>
+            </ion-list>
+            <label class="item item-input">
+                <span class="input-label">Confirma senha</span>
+                <input type="text" placeholder="">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Frase de segurança</span>
+                <input type="text" placeholder="">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Lembrete de senha</span>
+                <input type="text" placeholder="">
+            </label>
+        </form>
+    </div>
+
+    </ion-content>
+</ion-view>

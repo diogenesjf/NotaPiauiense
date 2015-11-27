@@ -1,0 +1,14 @@
+{
+  "name": "HelloIonic",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.1.1",
+    "ion-profile-picture": "https://github.com/israelidanny/ion-profile-picture.git"
+  },
+  "resolutions": {
+    "ion-profile-picture": "master"
+  },
+  "dependencies": {
+    "ionic-datepicker": "~0.9.0"
+  }
+}

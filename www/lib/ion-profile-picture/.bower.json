@@ -1,0 +1,33 @@
+{
+  "name": "ion-profile-picture",
+  "homepage": "https://github.com/israelidanny/ion-profile-picture",
+  "authors": [
+    "Danny Povolotski <dannypovolotski@gmail.com>"
+  ],
+  "description": "A nice little directive for a profile picture selector",
+  "main": "ion-profile-picture.js",
+  "keywords": [
+    "ionic",
+    "maps",
+    "profile",
+    "picture",
+    "image"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "67fc434601",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "67fc434601b4134d0f24ef5ec4ff0306de6195b6"
+  },
+  "_source": "https://github.com/israelidanny/ion-profile-picture.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/israelidanny/ion-profile-picture.git"
+}

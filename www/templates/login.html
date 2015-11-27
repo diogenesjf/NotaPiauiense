@@ -1,0 +1,23 @@
+<ion-view title="Login">
+    <ion-content padding="'true'" class="has-header">
+        <div class="spacer" style="width: 300px; height: 18px;"></div>
+        <form class="list">
+            <img src="img/mnA6p2lTsKJ6sNSYarMI_notapiauiense.png" class="container-image-center container-image-logo">
+            <ion-list>
+                <label class="item item-input">
+                    <span class="input-label">Username</span>
+                    <input type="text" placeholder="" ng-model="user.username">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Password</span>
+                    <input type="password" placeholder="" ng-model="user.password">
+                </label>
+            </ion-list>
+            <div class="spacer" style="width: 300px; height: 8px;"></div>
+            <a menu-close="" class="button button-stable button-block " ng-click="signIn(user)">Entrar</a>
+            <a menu-close="" href="#/cadPasso1" class="button button-positive button-clear button-block ">Cadastre-se</a>
+            <button class="button button-positive button-clear button-block ">Esqueci minha senha</button>
+            <img src="img/7yubSuaGRE6fXAQOFYIt_logo sefaz.png" class="container-image-center container-image-logo">
+        </form>
+    </ion-content>
+</ion-view>
