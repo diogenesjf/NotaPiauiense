@@ -1,0 +1,280 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Participate",
+				"ParticipateDetails"
+			],
+			[
+				"Parti",
+				"ParticipateDetailList"
+			],
+			[
+				"Participa",
+				"ParticipateDetail"
+			],
+			[
+				"me",
+				"me"
+			],
+			[
+				"item",
+				"itemId"
+			],
+			[
+				"data",
+				"dataFimCurso"
+			],
+			[
+				"v",
+				"valor1"
+			],
+			[
+				"da",
+				"dataAplicacao"
+			],
+			[
+				"nome",
+				"nomeSala"
+			],
+			[
+				"cur",
+				"curso-nucli"
+			],
+			[
+				"curso",
+				"curso-online"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 360.0,
+		"selected_items":
+		[
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/CursoNucli/CursoNucliMapper.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/CursoNucli/CursoNucliResource.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/CursoOnline/CursoOnlineMapper.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/Exame/ExameMapper.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/CursoOnline/CursoOnlineResource.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rpc/PublicCourse/PublicCourseController.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/PublicCourse/PublicCourseEntity.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/PublicCourse/PublicCourseResource.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/Inscricao/InscricaoMapper.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/Inscricao/InscricaoEntity.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/CursoOnline/CursoOnlineResourceFactory.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/CursoNucli/CursoNucliResourceFactory.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/Exame/ExameResourceFactory.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/Module.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/Inscricao/InscricaoResource.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/Inscricao/InscricaoResourceFactory.php",
+		"/Users/diogenesjf/apigility/module/mec_isf_ws/src/mec_isf_ws/V1/Rest/Exame/ExameResource.php",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/store/OnlineCoursesSelect.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/controller/PublicCourseArea.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/PublicArea/ParticipateDetailList.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/PublicArea/ParticipateDetail.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/PublicArea/ParticipateIntro.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/store/ParticipateDetails.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/model/ParticipateDetail.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/Main.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/bootstrap.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/resources/data/json/participateDetail.json",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/PublicArea/PublicCourseAreaList.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/PublicArea/PublicCourseArea.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/model/Language.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/Student/Space.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/Student/InscriptionsList.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/controller/Main.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/resources/data/json/languages.json",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/resources/data/json/publicCourse.json",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/model/PublicCourse.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/store/PublicCourses.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/Course/Detail.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/model/Inscription.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/Course/OnlineCourseDetail.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/Course/NuCli.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/vendor/ux/Mba.ux.Field/Select.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/controller/Course.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/bower.json",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/Course/ExamDetail.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/model/Exam.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/model/NucLiCourse.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/model/OnlineCourse.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/store/NucLiCoursesSelect.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/store/ExamsSelect.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/store/Exams.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/store/NucLiCourses.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/store/OnlineCourses.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/controller/Student.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/resources/globals/url.json",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/resources/sass/app.scss",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/view/Student/CourseView.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_sisuvagas/upgrade",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/store/Exam.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/store/Inscriptions.js",
+		"/Users/diogenesjf/Documents/mbamobi/mec_isf/mec_isf/app/service/Authentication.js",
+		"/Users/diogenesjf/Downloads/WINDOWS 8.1/9600.16384.130821-1623_x64fre_Client_PT-BR-IRM_CCSA_DV5.ISO.NFO",
+		"/Users/diogenesjf/Documents/mbamobi/base/mec_isf/app/view/Main.js"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			":",
+			"\"",
+			"ParticipateDetail",
+			"PublicCourse",
+			"PublicArea",
+			"Main",
+			"PublicCourseArea",
+			"Nuc",
+			"Exams",
+			"HEAD",
+			"ExamsStore",
+			"NucLiCoursesStore",
+			"Exam",
+			"NucLiCoursesStore",
+			"loadOptionsCourse",
+			"Online",
+			"ExamDetailViewExamDetailView`\nOnline",
+			"ExamDetailViewExamDetailView`\nOnlineCourse",
+			"ExamDetailView",
+			"ExamDetailViewData",
+			"\"",
+			"ExamD",
+			"\"",
+			"Isf.view.Course.Detail",
+			"’",
+			"‘",
+			"itemTpl",
+			"192.168.5.14"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"=>",
+			"'",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 334.0,
+	"status_bar_visible": true
+}

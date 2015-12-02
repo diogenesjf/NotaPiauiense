@@ -1,21 +1,24 @@
 <ion-view title="Nota Piauiense">
-    <ion-content padding="'true'" class="has-header">
-        <div class="spacer" style="width: 300px; height: 18px;"></div>
-	    <div> 
-	       <ion-profile-picture ng-model="myPicture" />
-	    </div>   
-	 	<div class="center-content container-full">
-	        <span>{{contaCorrente.nome}}
-	        </span>
-	        <span><strong>Data do Último Acesso:</strong>{{contaCorrente.dataUltimoAcesso}}
-	        </span>
-	    </div>    
-	    <div class="spacer" style="width: 300px; height: 18px;"></div>
-	    <div class="container-saldo">
-	    	<div class="block-left center-content" style="width:50%"><span class="saldo">{{contaCorrente.saldo}}</span><span>Saldo de conta corrente</span></div>
-	    	<div class="block-left center-content" style="width:50%"><span class="saldo">{{contaCorrente.lancamentosFuturos}}</span>
-	    	<span>Lançamentos futuros</span></div>
-	    </div>
+    <ion-content padding="'false'" class="has-header no-padding" has-padding="false">
+
+    	<div class="content-user" style="width: 100%;">
+	        <div class="spacer" style="width: 300px; height: 18px;"></div>
+		    <div> 
+		       <ion-profile-picture ng-model="myPicture" />
+		    </div>   
+		 	<div class="center-content container-full">
+		        <span>{{contaCorrente.nome}}
+		        </span>
+		        <span><strong>Data do Último Acesso:</strong>{{contaCorrente.dataUltimoAcesso}}
+		        </span>
+		    </div>    
+		    <div class="spacer" style="width: 300px; height: 18px;"></div>
+		    <div class="container-saldo">
+		    	<div class="block-left center-content" style="width:50%"><span class="saldo">{{contaCorrente.saldo}}</span><span>Saldo de conta corrente</span></div>
+		    	<div class="block-left center-content" style="width:50%"><span class="saldo">{{contaCorrente.lancamentosFuturos}}</span>
+		    	<span>Lançamentos futuros</span></div>
+		    </div>
+    	</div>
 	    <div class="spacer" style="width: 300px; height: 10px;"></div>
 	    <ion-list>
 		  <ion-item ng-repeat="item in contaCorrente.itensConta">

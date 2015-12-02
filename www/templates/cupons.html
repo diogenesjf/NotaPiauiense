@@ -19,12 +19,16 @@
     <div> 
 	    <ion-list>
 		  <ion-item ng-repeat="cupom in data.cupons | filter : data.filter">
-		 	<div class="div-table">
-			    <div class="div-table-row"> 
-					<div class="div-table-col">{{cupom.serie}}</div>
-			    	<div class="div-table-col-right">{{cupom.value}}</div>
-		    	</div>
-	    	</div>
+          <div class="div-table">
+            <div class="div-table-row"> 
+            <div class="div-table-col">{{cupom.id}}</div>
+              <div class="div-table-col-right">{{cupom.date}}</div>
+            </div>
+            <div class="div-table-row">
+            <div class="div-table-col">{{cupom.status}}</div>
+              <div class="div-table-col-right">&nbsp;</div>
+            </div>
+          </div>
 	      </ion-item>
 	    </ion-list>    
 <!--      <div class="list">

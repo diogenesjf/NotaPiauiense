@@ -79,3 +79,48 @@
   display:table-column;         
   width:auto;
 }
+.content-init {
+   border-color: rgb(0,80,114) !important;
+   background-color: rgb(0,80,114) !important;
+   background-image:
+    -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.15, rgb(14,60,78)),
+        color-stop(0.58, rgb(5,71,98)),
+        color-stop(0.79, rgb(0,80,114))
+    )
+    -moz-linear-gradient(
+        center bottom,
+        rgb(14,60,78) 15%,
+        rgb(5,71,98) 58%,
+        rgb(0,80,114) 79%
+    ) !important
+}
+.content-user {
+    border-color: rgb(3,115,191) !important;
+    background-color: rgb(3,115,191) !important;
+    background-image: linear-gradient(0deg, rgb(3,115,191), rgb(3,115,191) 50%, transparent 50%) !important;
+}
+
+.tabs-color > .tabs{
+    border-color: rgb(3,115,191) !important;
+    background-color: rgb(3,115,191) !important;
+    background-image: linear-gradient(0deg, rgb(3,115,191), rgb(3,115,191) 50%, transparent 50%) !important;
+}
+
+.no-padding {
+    padding: 0px !important;
+}
+.no-padding > .padding {
+    padding: 0px !important;
+}
+
+bar.bar-custom, bar.bar-custom .bar.bar-positive, .bar-custom .nav-bar-block ion-header-bar {
+        border-color: rgb(3,115,191);
+        background-color: rgb(3,115,191);
+        background-image: linear-gradient(0deg, rgb(3,115,191), rgb(3,115,191) 50%, transparent 50%);
+    }
+
+
