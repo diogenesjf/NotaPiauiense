@@ -56,69 +56,14 @@ angular.module('app.services', [])
         }
       },
       getNotas: function(){ 
-	    return $http.get("http://localhost:3000/notas").then(function(response){
-	  		var data =   {
-				    "filter" : '',
-				    "notas": response.data,
-				};
+  	    return $http.get("http://localhost:3000/notas").then(function(response){
+  	  		var data =   {
+  				    "filter" : '',
+  				    "notas": response.data,
+  				};
 	        return data;
-	    });
-  		/*var data =   {
-				    "filter" : '',
-				    "notas": [
-				      {
-				        type : "01L",
-				        title : "Supermercado A",
-				        date : "12/11/2015",
-				        value : "R$ 80,00",
-				        status : "Lançada"
-				      },
-				      {
-				        type : "01L",
-				        title : "Supermercado B",
-				        date : "13/11/2015",
-				        value : "R$ 55,12",
-				        status : "Lançada"
-				      },
-				      {
-				        type : "02P",
-				        title : "Farmácia",
-				        date : "13/11/2015",
-				        value : "R$ 80,00",
-				        status : "Pendente"
-				      },
-				      {
-				        type : "01L",
-				        title : "Posto de gasolina",
-				        date : "14/11/2015",
-				        value : "R$ 120,00",
-				        status : "Lançada"
-				      },
-				      {
-				        type : "02P",
-				        title : "Restaurante",
-				        date : "12/11/2015",
-				        value : "R$ 90,00",
-				        status : "Pendente"
-				      },
-				      {
-				        type : "02P",
-				        title : "Supermercado C",
-				        date : "12/11/2015",
-				        value : "R$ 87,00",
-				        status : "Pendente"
-				      },
-				      {
-				        type : "01L",
-				        title : "Posto de gasolina",
-				        date : "15/11/2015",
-				        value : "R$ 50,00",
-				        status : "Lançada"
-				      },
-				    ]
-				};
-		return data;*/		
-    }
+  	    });
+      }
   };  
     return listSrv;
   }])
@@ -148,42 +93,14 @@ angular.module('app.services', [])
 
     var listSrv = {
       getCupons: function(){ 
-/*	    return $http.get("path/to/resource").then(function(response){
-	        people = response;
-	        return response;
-	    });*/
-  		var data =   {
-				    "filter" : '',
-				    "cupons": [
-				      {
-				        id : "9187836786786378682",
-				        date : "12/11/2015",
-				        status : "Expirado"
-				      },
-				      {
-				        id : "9187836786786378683",
-				        date : "13/11/2015",
-				        status : "Válido"
-				      },
-				      {
-				        id : "9187836786786378684",
-				        date : "13/11/2015",
-				        status : "Expirado"
-				      },
-				      {
-				        id : "9187836786786378685",
-				        date : "14/11/2015",
-				        status : "Válido"
-				      },
-				      {
-				        id : "9187836786786378686",
-				        date : "12/11/2015",
-				        status : "Válido"
-				      }
-				    ]
-				};
-		return data;		
-    }
+        return $http.get("http://localhost:3000/cupons").then(function(response){
+          var data =   {
+              "filter" : '',
+              "cupons": response.data,
+          };
+          return data;
+        });
+      }
   };  
     return listSrv;
   }])
@@ -192,49 +109,13 @@ angular.module('app.services', [])
 
     var listSrv = {
       getSorteios: function(){ 
-/*	    return $http.get("path/to/resource").then(function(response){
-	        people = response;
-	        return response;
-	    });*/
-  		var data =  {
-					  success: true,
-					  data:{
-					    "filter" : '',
-					    "sorteios": [
-					      {
-					        id : "9187836786786378682",
-					        date : "12/11/2015",
-					        value : "R$ 100.000,00",
-					        status : "Realizado"
-					      },
-					      {
-					        id : "9187836786786378683",
-					        date : "13/11/2015",
-					        value : "R$ 100.000,00",
-					        status : "A Realizar"
-					      },
-					      {
-					        id : "9187836786786378684",
-					        date : "13/11/2015",
-					        value : "R$ 200.000,00",
-					        status : "Realizado"
-					      },
-					      {
-					        id : "9187836786786378685",
-					        date : "14/11/2015",
-					        value : "R$ 100.000,00",
-					        status : "Realizado"
-					      },
-					      {
-					        serie : "9187836786786378686",
-					        date : "12/11/2015",
-					        value : "R$ 100.000,00",
-					        status : "Realizado"
-					      }
-					    ]
-					}
-				};
-		return data;		
+          return $http.get("http://localhost:3000/sorteios").then(function(response){
+            var data =   {
+                "filter" : '',
+                "sorteios": response.data,
+            };
+            return data;
+          });
     }
   };  
     return listSrv;

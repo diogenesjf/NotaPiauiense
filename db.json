@@ -44,6 +44,13 @@
   "notas": [
     {
       "type": "01L",
+      "title": "Supermercado ABCD",
+      "date": "01/12/2015",
+      "value": "R$ 80,00",
+      "status": "Lançada"
+    },
+    {
+      "type": "01L",
       "title": "Supermercado A",
       "date": "12/11/2015",
       "value": "R$ 80,00",
@@ -117,6 +124,38 @@
       "id": "9187836786786378686",
       "date": "12/11/2015",
       "status": "Válido"
+    }
+  ],
+  "sorteios": [
+    {
+      "id": "9187836786786378682",
+      "date": "12/11/2015",
+      "value": "R$ 100.000,00",
+      "status": "Realizado"
+    },
+    {
+      "id": "9187836786786378683",
+      "date": "13/11/2015",
+      "value": "R$ 100.000,00",
+      "status": "A Realizar"
+    },
+    {
+      "id": "9187836786786378684",
+      "date": "13/11/2015",
+      "value": "R$ 200.000,00",
+      "status": "Realizado"
+    },
+    {
+      "id": "9187836786786378685",
+      "date": "14/11/2015",
+      "value": "R$ 100.000,00",
+      "status": "Realizado"
+    },
+    {
+      "id": "9187836786786378686",
+      "date": "12/11/2015",
+      "value": "R$ 100.000,00",
+      "status": "Realizado"
     }
   ]
 }

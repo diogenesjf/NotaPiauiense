@@ -73,6 +73,11 @@ angular.module('app.routes', [])
       controller: 'dadosUsuarioCtrl'
     })
     
+    .state('sorteios', {
+      url: '/sorteios',
+      templateUrl: 'templates/sorteios.html',
+      controller: 'sorteioCtrl'
+    })
       
         
     .state('tabsController.conta', {
@@ -94,7 +99,12 @@ angular.module('app.routes', [])
       views: {
         'tab4': {
           templateUrl: 'templates/minhasNotas.html',
-          controller: 'minhasNotasCtrl'
+          controller: 'minhasNotasCtrl',
+          resolve: {
+              dataNotasLoad: function (appDBBridge) {
+                return appDBBridge.selectOneDoc({}, 'NotasListFactory.getNotas');
+              }
+          }
         }
       }
     })
