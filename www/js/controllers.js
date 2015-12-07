@@ -104,12 +104,32 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 	$scope.contaCorrente = ContaCorrenteListFactory.getContaCorrente();
 }])
    
-.controller('minhasNotasCtrl', ['NotasListFactory','$scope', '$ionicModal',
-    function(NotasListFactory, $scope, $ionicModal) {
+.controller('minhasNotasCtrl', ['NotasListFactory'/*,'dataNotas'*/,
+  '$scope', 
+  '$ionicModal',
+  'appDBBridge',
+  '$timeout',
+    function(NotasListFactory/*, dataNotas*/, $scope, $ionicModal, appDBBridge, $timeout) {
+	$scope.dataNotas = [];
+
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = true;
 		$scope.menuData.menuRightIconExit = false;
 	});
+
+	$scope.$on('$ionicView.enter', function(e, data){
+
+	    //appDBBridge.fetchAndSyncDataToScope('', 'Filer.thisUserFiles', [])
+	    NotasListFactory.getNotas().then(function (updatedDoc) {
+	      var u = $timeout(function () {
+	        $scope.dataNotas = updatedDoc;
+//	        $scope.dataNotas = _.values(_.omit(updatedDoc, ['filter', 'notas']));
+	      }, 1000);
+	      $scope.$on('$destroy', function () {
+	        u.cancel();
+	      });
+	    });
+	  });
 
 	$scope.active = 'all';
 
@@ -120,7 +140,14 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
         return type === $scope.active;
     };  
 
-    $scope.data = NotasListFactory.getNotas();
+
+	  /*if (dataNotas) {
+	    $scope.dataNotas = _.values(_.omit(dataNotas, ['filter', 'notas']));
+	  }*/
+
+	  
+
+//	      $scope.data = NotasListFactory.getNotas();
 
       $ionicModal.fromTemplateUrl('templates/addNotasModal.html', function(modal) {
         $scope.addDialog = modal;

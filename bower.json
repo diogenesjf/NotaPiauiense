@@ -9,6 +9,7 @@
     "ion-profile-picture": "master"
   },
   "dependencies": {
-    "ionic-datepicker": "~0.9.0"
+    "ionic-datepicker": "~0.9.0",
+    "pouchdb": "~5.1.0"
   }
 }
