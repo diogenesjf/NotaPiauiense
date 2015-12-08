@@ -395,6 +395,21 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 	};
 
 }])
+
+
+.controller('utilizacaoCreditosCtrl', function($scope, $state) {
+	$scope.$on('$ionicView.beforeEnter', function (e, data) {
+		$scope.menuData.menuLeftIconOn = true;
+		$scope.menuData.menuRightIconExit = true;
+	});
+	$scope.voltar = function(user) {
+		$state.go('tabsController.conta');
+	};
+	$scope.salvar = function(user) {
+		$state.go('tabsController.conta');
+	};
+
+})
 .controller('NavCtrl', function($scope,$state, $ionicSideMenuDelegate) {
 	 $scope.menuData = {
         menuLeftIconOn: false,

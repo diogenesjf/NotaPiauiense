@@ -79,6 +79,11 @@ angular.module('app.routes', [])
       controller: 'sorteioCtrl'
     })
       
+    .state('utilizacaoCreditos', {
+      url: '/utilizacaoCreditos',
+      templateUrl: 'templates/utilizacaoCreditos.html',
+      controller: 'utilizacaoCreditosCtrl'
+    })
         
     .state('tabsController.conta', {
       url: '/conta',
