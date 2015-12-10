@@ -44,6 +44,10 @@
   "notas": [
     {
       "type": "01L",
+      "cnpj": "01.001.001/0001-99",
+      "docType": "Cupom Fiscal",
+      "docNumber": "872898277266494001",
+      "serie": "8877665",
       "title": "Supermercado ABCD",
       "date": "01/12/2015",
       "value": "R$ 80,00",
@@ -51,6 +55,10 @@
     },
     {
       "type": "01L",
+      "cnpj": "02.001.001/0001-99",
+      "docType": "Cupom Fiscal",
+      "docNumber": "872898277266494002",
+      "serie": "8877665",
       "title": "Supermercado A",
       "date": "12/11/2015",
       "value": "R$ 80,00",
@@ -58,6 +66,10 @@
     },
     {
       "type": "01L",
+      "cnpj": "01.002.001/0001-99",
+      "docType": "Cupom Fiscal",
+      "docNumber": "872898277266494003",
+      "serie": "8877665",
       "title": "Supermercado B",
       "date": "13/11/2015",
       "value": "R$ 55,12",
@@ -65,6 +77,10 @@
     },
     {
       "type": "02P",
+      "cnpj": "01.001.002/0001-99",
+      "docType": "Cupom Fiscal",
+      "docNumber": "872898277266494004",
+      "serie": "8877665",
       "title": "Farmácia",
       "date": "13/11/2015",
       "value": "R$ 80,00",
@@ -72,6 +88,10 @@
     },
     {
       "type": "01L",
+      "cnpj": "01.001.003/0001-99",
+      "docType": "Cupom Fiscal",
+      "docNumber": "872898277266494005",
+      "serie": "8877665",
       "title": "Posto de gasolina",
       "date": "14/11/2015",
       "value": "R$ 120,00",
@@ -79,6 +99,10 @@
     },
     {
       "type": "02P",
+      "cnpj": "01.001.004/0001-99",
+      "docType": "Cupom Fiscal",
+      "docNumber": "872898277266494006",
+      "serie": "8877665",
       "title": "Restaurante",
       "date": "12/11/2015",
       "value": "R$ 90,00",
@@ -86,6 +110,10 @@
     },
     {
       "type": "02P",
+      "cnpj": "01.001.005/0001-99",
+      "docType": "Cupom Fiscal",
+      "docNumber": "872898277266494007",
+      "serie": "8877665",
       "title": "Supermercado C",
       "date": "12/11/2015",
       "value": "R$ 87,00",
@@ -93,6 +121,10 @@
     },
     {
       "type": "01L",
+      "cnpj": "01.001.006/0001-99",
+      "docType": "Cupom Fiscal",
+      "docNumber": "872898277266494008",
+      "serie": "8877665",
       "title": "Posto de gasolina",
       "date": "15/11/2015",
       "value": "R$ 50,00",

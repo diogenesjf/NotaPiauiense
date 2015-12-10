@@ -106,11 +106,12 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
    
 .controller('minhasNotasCtrl', ['NotasListFactory','dataNotasLoad',
   '$scope', 
+  '$state',
   '$ionicModal',
   'appDBBridge',
   '$timeout',
   '$ionicLoading', '$ionicPopup',
-    function(NotasListFactory, dataNotasLoad, $scope, $ionicModal, appDBBridge, $timeout, $ionicLoading, $ionicPopup) {
+    function(NotasListFactory, dataNotasLoad, $scope, $state, $ionicModal, appDBBridge, $timeout, $ionicLoading, $ionicPopup) {
 	$scope.dataNotas = [];
 
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
@@ -256,6 +257,14 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
       $scope.addNota = function(e) {
         $scope.showAddChangeDialog('add');
       };
+
+    $scope.detailNota = function(nota) {
+        $state.go('detalheNota');
+        $scope.notaDetalhe = nota;
+    };  
+	$scope.voltarLista = function(user) {
+		$state.go('tabsController.minhasNotas');
+	};
 
       // Define item buttons
       // Get list from storage

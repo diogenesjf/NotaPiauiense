@@ -85,6 +85,17 @@ angular.module('app.routes', [])
       controller: 'utilizacaoCreditosCtrl'
     })
         
+    .state('detalheNota', {
+      url: '/detalheNota',
+      templateUrl: 'templates/detalheNota.html',
+      controller: 'minhasNotasCtrl',
+          resolve: {
+              dataNotasLoad: function (appDBBridge) {
+                return appDBBridge.selectOneDoc({}, 'NotasListFactory.getNotas');
+              }
+          }
+    })
+
     .state('tabsController.conta', {
       url: '/conta',
       views: {
