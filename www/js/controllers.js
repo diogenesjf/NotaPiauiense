@@ -199,6 +199,15 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
       });
 
 
+      $ionicModal.fromTemplateUrl('templates/detalheNota.html', function(modal) {
+        $scope.detailDialog = modal;
+      }, {
+        scope: $scope,
+        animation: 'slide-in-up',
+    	focusFirstInput: true
+      });
+
+
  		var weekDaysList = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
  		var monthList = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
  		$scope.dataNota = {
@@ -240,6 +249,11 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
         $scope.addDialog.show();
 
      };
+     $scope.showDetailDialog = function(action) {
+        $scope.action = action;
+        $scope.detailDialog.show();
+
+     };
 
       $scope.leaveAddChangeDialog = function() {
         // Remove dialog 
@@ -254,16 +268,33 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
         });
       };
 
+
+      $scope.leaveDetailDialog = function() {
+        // Remove dialog 
+        $scope.detailDialog.remove();
+        // Reload modal template to have cleared form
+        $ionicModal.fromTemplateUrl('templates/detalheNota.html', function(modal) {
+          $scope.detailDialog = modal;
+        }, {
+          scope: $scope,
+          animation: 'slide-in-up',
+    	  focusFirstInput: true
+        });
+      };
+
       $scope.addNota = function(e) {
         $scope.showAddChangeDialog('add');
       };
 
     $scope.detailNota = function(nota) {
-        $state.go('detalheNota');
+        $scope.showDetailDialog('detail');
         $scope.notaDetalhe = nota;
     };  
 	$scope.voltarLista = function(user) {
-		$state.go('tabsController.minhasNotas');
+		$scope.leaveDetailDialog();
+	};
+	$scope.reclamar = function(form) {
+		$scope.leaveDetailDialog();
 	};
 
       // Define item buttons
@@ -407,6 +438,19 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 
 
 .controller('utilizacaoCreditosCtrl', function($scope, $state) {
+	$scope.$on('$ionicView.beforeEnter', function (e, data) {
+		$scope.menuData.menuLeftIconOn = true;
+		$scope.menuData.menuRightIconExit = true;
+	});
+	$scope.voltar = function(user) {
+		$state.go('tabsController.conta');
+	};
+	$scope.salvar = function(user) {
+		$state.go('tabsController.conta');
+	};
+
+})
+.controller('detalheNotaCtrl', function($scope, $state) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = true;
 		$scope.menuData.menuRightIconExit = true;
