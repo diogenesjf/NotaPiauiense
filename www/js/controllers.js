@@ -324,7 +324,14 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 
 }])
    
-.controller('consultaCtrl', function($scope) {
+.controller('consultaCtrl',  ['NotasListFactory',
+							  '$scope', 
+							  '$state',
+							  '$ionicModal',
+							  'appDBBridge',
+							  '$timeout',
+							  '$ionicLoading', '$ionicPopup',
+    function(NotasListFactory, $scope, $state, $ionicModal, appDBBridge, $timeout, $ionicLoading, $ionicPopup) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = true;
 		$scope.menuData.menuRightIconExit = true;
@@ -365,7 +372,83 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 		  }
 		};
 
-      $scope.saveEmpty = function(form) {
+	$scope.isOnline = function() {
+        var networkState = null;
+
+        if (navigator.connection) {
+            networkState = navigator.connection.type;
+        }
+
+        if (networkState && networkState === Connection.NONE) {
+            return false;
+        }
+        if (navigator.onLine) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    $scope.getRemoteNotas = function() {
+        if (!$scope.isOnline()) {
+            $ionicPopup.alert({
+                title: 'Oops!',
+                template: 'Não foi possível estabelecer conexão com o servidor.'
+            }).then(function() {
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
+            });
+        } else {
+		    appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [])
+		    .then(function (updatedDoc) {
+		      var u = $timeout(function () {
+		        $scope.dataNotas = updatedDoc;
+	            $ionicLoading.hide();
+	            $scope.$broadcast('scroll.refreshComplete');
+		      }, 1000);
+		      $scope.$on('$destroy', function () {
+		        u.cancel();
+		      });
+		    }, function() {
+	        }, function() {
+	            $ionicLoading.hide();
+	            $scope.$broadcast('scroll.refreshComplete');
+	        });
+        }
+    };
+
+      $ionicModal.fromTemplateUrl('templates/resultadoNotas.html', function(modal) {
+        $scope.resultDialog = modal;
+      }, {
+        scope: $scope,
+        animation: 'slide-in-up',
+    	focusFirstInput: true
+      });
+
+
+     $scope.showResultDialog = function(action) {
+        $scope.action = action;
+        $scope.resultDialog.show();
+
+     };
+
+      $scope.leaveResultDialog = function() {
+        // Remove dialog 
+        $scope.resultDialog.remove();
+        // Reload modal template to have cleared form
+        $ionicModal.fromTemplateUrl('templates/resultadoNotas.html', function(modal) {
+          $scope.resultDialog = modal;
+        }, {
+          scope: $scope,
+          animation: 'slide-in-up',
+    	  focusFirstInput: true
+        });
+      };
+	$scope.voltarLista = function(user) {
+		$scope.leaveResultDialog();
+	};
+
+	$scope.saveEmpty = function(form) {
         $scope.form = angular.copy(form);
       }
 
@@ -378,10 +461,12 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
         newItem.serie = form.serie.$modelValue;
         newItem.dataNota = $scope.dataNota.inputDate;
         // Save new list in scope and factory
+        $scope.showResultDialog('result');
+        $scope.getRemoteNotas();
 //        NotasListFactory.setList($scope.list);
       };
 
-})
+}])
       
 .controller('cuponsCtrl', ['CuponsListFactory','$scope', '$ionicModal',
   'appDBBridge',

@@ -1,0 +1,26 @@
+  <div class="modal">
+    <div class="bar bar-header bar-positive content-init">
+        <ion-button class="button icon-left ion-chevron-left button-clear" ng-click="voltarLista()">Fechar</ion-button>
+        <h1 class="title">Detalhe Nota</h1>
+    </div>
+
+    <ion-content padding="'true'" scroll="true" class="has-header">
+
+    <div class="spacer" style="width: 300px; height: 30px;"></div>
+	    <ion-list>
+		  <ion-item ng-repeat="nota in dataNotas.notas | filter : dataNotas.filter">
+		 	<div class="div-table" ng-click="detailNota(nota);">
+			    <div class="div-table-row"> 
+					<div class="div-table-col">{{nota.title}}</div>
+			    	<div class="div-table-col-right">{{nota.value}}</div>
+		    	</div>
+		    	<div class="div-table-row">
+					<div class="div-table-col">{{nota.status}}</div>
+			    	<div class="div-table-col-right">{{nota.date}}</div>
+		    	</div>
+	    	</div>
+	      </ion-item>
+	    </ion-list>    
+    </ion-content>
+<!--    <button class="button button-float">        <i class="icon ion-plus"></i>      </button> -->
+</ion-view>
