@@ -383,7 +383,7 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
             return false;
         }
         if (navigator.onLine) {
-            return true;
+            return true; 
         } else {
             return false;
         }
@@ -411,7 +411,7 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 		      });
 		    }, function() {
 	        }, function() {
-	            $ionicLoading.hide();
+	            $ionicLoading.hide(); 
 	            $scope.$broadcast('scroll.refreshComplete');
 	        });
         }
