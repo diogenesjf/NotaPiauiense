@@ -51,17 +51,25 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 
 })
    
-.controller('loginCtrl', function($scope, $state) {
+.controller('loginCtrl', ['LoginService', 'sessionService', '$scope', '$ionicModal','$state', '$ionicLoading',
+    function(LoginService,sessionService, $scope, $ionicModal, $state, $ionicLoading) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = false;
 		$scope.menuData.menuRightIconExit = false;
 	});
 	$scope.signIn = function(user) {
-	    console.log('Sign-In', user.username, user.password);
+		console.log('Sign-In', user.username, user.password);
+		$ionicLoading.show();
+		var userRetorno = LoginService.login(user.username, user.password,$scope.successLogin);
+	};
+	$scope.successLogin = function(user) {
+		console.log('Sign-In', user);
+		sessionService.store('user', user);
 		$state.go('tabsController.conta');
+		$ionicLoading.hide();
 	};
 
-})
+}])
    
 .controller('sucessoCtrl', function($scope, $ionicNavBarDelegate) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
@@ -95,23 +103,31 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 })
   
 
-  .controller('contaCtrl', ['ContaCorrenteListFactory','$scope', '$ionicModal',
-    function(ContaCorrenteListFactory, $scope, $ionicModal) {
+  .controller('contaCtrl', ['ContaCorrenteListFactory', 'sessionService', '$scope', '$ionicModal',
+    function(ContaCorrenteListFactory, sessionService,  $scope, $ionicModal) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = true;
 		$scope.menuData.menuRightIconExit = true;
+		$scope.user = sessionService.get('user');
+		ContaCorrenteListFactory.getContaCorrente($scope.user.login,$scope.user.tokenSessao,$scope.successConta);
 	});
-	$scope.contaCorrente = ContaCorrenteListFactory.getContaCorrente();
+
+
+	$scope.successConta = function(conta) {
+		$scope.contaCorrente = conta;
+	};
+
 }])
    
 .controller('minhasNotasCtrl', ['NotasListFactory','dataNotasLoad',
-  '$scope', 
+  '$scope',
   '$state',
+  'sessionService',
   '$ionicModal',
   'appDBBridge',
   '$timeout',
   '$ionicLoading', '$ionicPopup',
-    function(NotasListFactory, dataNotasLoad, $scope, $state, $ionicModal, appDBBridge, $timeout, $ionicLoading, $ionicPopup) {
+    function(NotasListFactory, dataNotasLoad, $scope, $state, sessionService,  $ionicModal, appDBBridge, $timeout, $ionicLoading, $ionicPopup) {
 	$scope.dataNotas = [];
 
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
@@ -129,7 +145,7 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
      * Called on "pull to refresh" action
      */
     $scope.refreshNotas = function() {
-    	$scope.getRemoteNotas();
+		$scope.getRemoteNotas();
     };
     $scope.getRemoteNotas = function() {
         if (!$scope.isOnline()) {
@@ -141,23 +157,36 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
                 $scope.$broadcast('scroll.refreshComplete');
             });
         } else {
-		    appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [])
-		    .then(function (updatedDoc) {
-		      var u = $timeout(function () {
-		        $scope.dataNotas = updatedDoc;
-	            $ionicLoading.hide();
-	            $scope.$broadcast('scroll.refreshComplete');
-		      }, 1000);
-		      $scope.$on('$destroy', function () {
-		        u.cancel();
-		      });
-		    }, function() {
-	        }, function() {
-	            $ionicLoading.hide();
-	            $scope.$broadcast('scroll.refreshComplete');
-	        });
+			$scope.user = sessionService.get('user');
+			appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [$scope.user.login,$scope.user.tokenSessao,$scope.successNotas])
+			.then(function (updatedDoc) {
+				var u = $timeout(function () {
+					$scope.dataNotas = updatedDoc;
+					$ionicLoading.hide();
+					$scope.$broadcast('scroll.refreshComplete');
+				}, 1000);
+				$scope.$on('$destroy', function () {
+					u.cancel();
+				});
+			}, function() {
+			}, function() {
+				$ionicLoading.hide();
+				$scope.$broadcast('scroll.refreshComplete');
+			});
         }
     };
+
+    $scope.successNotas = function(notas) {
+		var u = $timeout(function () {
+			$scope.dataNotas = notas;
+			$ionicLoading.hide();
+			$scope.$broadcast('scroll.refreshComplete');
+		}, 1000);
+		$scope.$on('$destroy', function () {
+			u.cancel();
+		});
+	};
+
 
     $scope.setActive = function(type) {
         $scope.active = type;

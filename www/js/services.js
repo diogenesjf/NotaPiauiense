@@ -7,31 +7,42 @@ angular.module('app.services', [])
   .factory('ContaCorrenteListFactory',['$http',function($http){
 
     var listSrv = {
-      getContaCorrente: function(){ 
-/*	    return $http.get("path/to/resource").then(function(response){
-	        people = response;
-	        return response;
-	    });*/
-  		var data =   {
+      getContaCorrente: function(login,tokenSessao,callback){
+        $http.defaults.headers.post["Content-Type"] = "application/json";
+        return $http({
+            url: 'http://webas.sefaz.pi.gov.br/npservices/contaCorrente',
+            method: "POST",
+            data: { 'login' : login,
+                    'tokenSessao': tokenSessao }
+        })
+        .then(function(data) {
+                // success
+                return callback(data.data.data.conta);
+        },
+        function(data, status) { // optional
+                // failed
+                return status;
+        });
+/*    var data =   {
 		nome:'João da Silva',
 		dataUltimoAcesso:'20/11/2015',
 		saldo:'R$ 165,00',
 		lancamentosFuturos:'R$ 75,00',
-	   itensConta:[
-	    { title: 'Créditos Liberados', value:'R$ 100,00' },
-	    { title: 'Créditos Doados', value:'R$ 90,00' },
-	    { title: 'Créditos Sorteio', value:'R$ 30,00' },
-	    { title: 'Estorno Conta Bancária', value:'R$ 0,00' },
-	    { title: 'Desbloqueio ICMS', value:'R$ 10,00' },
-	    { title: 'Débitos Transferência', value:'R$ 40,00' },
-	    { title: 'Débitos Doação', value:'R$ 5,00' },
-	    { title: 'Saldo Créditos Liberados', value:'R$ 165,00' }
-	  ]
+    itensConta:[
+      { title: 'Créditos Liberados', value:'R$ 100,00' },
+      { title: 'Créditos Doados', value:'R$ 90,00' },
+      { title: 'Créditos Sorteio', value:'R$ 30,00' },
+      { title: 'Estorno Conta Bancária', value:'R$ 0,00' },
+      { title: 'Desbloqueio ICMS', value:'R$ 10,00' },
+      { title: 'Débitos Transferência', value:'R$ 40,00' },
+      { title: 'Débitos Doação', value:'R$ 5,00' },
+      { title: 'Saldo Créditos Liberados', value:'R$ 165,00' }
+    ]
 
 	};
-		return data;		
+		return data;*/
     }
-  };  
+    };
     return listSrv;
   }])
 
@@ -39,7 +50,7 @@ angular.module('app.services', [])
 
     var list = [];
     var listStore = localStorage.getItem("list");
-    if (listStore != null && listStore != '' && angular.isArray(angular.fromJson(listStore))) {
+    if (listStore !== null && listStore !== '' && angular.isArray(angular.fromJson(listStore))) {
       list = angular.fromJson(listStore);
     }
     var listSrv = {
@@ -49,22 +60,34 @@ angular.module('app.services', [])
         return true;
       },
       getList: function() {
-        if (list != null) {
+        if (list !== null) {
           return list;
         } else {
           return [];
         }
       },
-      getNotas: function(){ 
-  	    return $http.get("http://localhost:3000/notas").then(function(response){
-  	  		var data =   {
-  				    "filter" : '',
-  				    "notas": response.data,
-  				};
-	        return data;
-  	    });
+      getNotas: function(login,tokenSessao,callback){
+        $http.defaults.headers.post["Content-Type"] = "application/json";
+        return $http({
+            url: 'http://webas.sefaz.pi.gov.br/npservices/notas/list',
+            method: "POST",
+            data: { 'login' : login,
+                    'tokenSessao': tokenSessao }
+        })
+        .then(function(response) {
+                var responseData =   {
+                    "filter" : '',
+                    "notas": response.data.data.notas,
+                };
+                // success
+                return callback(responseData);
+        },
+        function(data, status) { // optional
+                // failed
+                return status;
+        });
       }
-  };  
+  };
     return listSrv;
   }])
 
@@ -84,15 +107,14 @@ angular.module('app.services', [])
                 }, function (data, status) {
                   return status;
                 });
-      }     
-   }
-   
+      }
+   };
  }])
 
   .factory('CuponsListFactory',['$http',function($http){
 
     var listSrv = {
-      getCupons: function(){ 
+      getCupons: function(){
         return $http.get("http://localhost:3000/cupons").then(function(response){
           var data =   {
               "filter" : '',
@@ -101,14 +123,14 @@ angular.module('app.services', [])
           return data;
         });
       }
-  };  
+  };
     return listSrv;
   }])
 
   .factory('SorteioListFactory',['$http',function($http){
 
     var listSrv = {
-      getSorteios: function(){ 
+      getSorteios: function(){
           return $http.get("http://localhost:3000/sorteios").then(function(response){
             var data =   {
                 "filter" : '',
@@ -117,14 +139,14 @@ angular.module('app.services', [])
             return data;
           });
     }
-  };  
+  };
     return listSrv;
   }])
 
 
 .factory('PouchDB', [function () {
       return new PouchDB('offline');
-}])  
+}])
 
 
 .factory('appDBBridge', [
@@ -306,6 +328,114 @@ angular.module('app.services', [])
 
     };
   }])
+
+
+.factory('LoginService', ['$http', function($http){
+   return {
+      /**
+       * [thisUserFiles request for files belonging to this user]
+       * @param  {[type]}   param
+       * @param  {Function} callback
+       * @return {[type]}
+       */
+      login : function login (cpf,password,callback){
+        $http.defaults.headers.post["Content-Type"] = "application/json";
+        return $http({
+            url: 'http://webas.sefaz.pi.gov.br/npservices/login',
+            method: "POST",
+            data: { 'usuario' : cpf,
+                    'senha': password }
+        })
+        .then(function(data) {
+                // success
+                return callback(data.data.data.usuario);
+        },
+        function(data, status) { // optional
+                // failed
+                return status;
+        });
+        /*return $http.post('http://webas.sefaz.pi.gov.br/npservices/login', param)
+                .then(function(data) {
+                  return data;
+                }, function (data, status) {
+                  return status;
+                });*/
+      }
+   };
+   
+ }])
+
+.service('sessionService', ['$cookieStore', function ($cookieStore) {
+    var localStoreAvailable = typeof (Storage) !== "undefined";
+    this.store = function (name, details) {
+        if (localStoreAvailable) {
+            if (angular.isUndefined(details)) {
+                details = null;
+            } else if (angular.isObject(details) || angular.isArray(details) || angular.isNumber(+details || details)) {
+                details = angular.toJson(details);
+            }
+            sessionStorage.setItem(name, details);
+        } else {
+            $cookieStore.put(name, details);
+        }
+    };
+
+    this.persist = function(name, details) {
+        if (localStoreAvailable) {
+            if (angular.isUndefined(details)) {
+                details = null;
+            } else if (angular.isObject(details) || angular.isArray(details) || angular.isNumber(+details || details)) {
+                details = angular.toJson(details);
+            }
+            localStorage.setItem(name, details);
+        } else {
+            $cookieStore.put(name, details);
+        }
+    };
+
+    this.get = function (name) {
+        if (localStoreAvailable) {
+            return getItem(name);
+        } else {
+            return $cookieStore.get(name);
+        }
+    };
+
+    this.destroy = function (name) {
+        if (localStoreAvailable) {
+            localStorage.removeItem(name);
+            sessionStorage.removeItem(name);
+        } else {
+            $cookieStore.remove(name);
+        }
+    };
+
+    var getItem = function (name) {
+        var data;
+        var localData = localStorage.getItem(name);
+        var sessionData = sessionStorage.getItem(name);
+
+        if (sessionData) {
+            data = sessionData;
+        } else if (localData) {
+            data = localData;
+        } else {
+            return null;
+        }
+
+        if (data === '[object Object]') { return null; }
+        if (!data.length || data === 'null') { return null; }
+
+        if (data.charAt(0) === "{" || data.charAt(0) === "[" || angular.isNumber(data)) {
+            return angular.fromJson(data);
+        }
+
+        return data;
+    };
+
+    return this;
+}])
+
 
 .service('BlankService', [function(){
 
