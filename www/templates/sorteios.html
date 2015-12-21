@@ -22,7 +22,7 @@
     <div class="spacer" style="width: 300px; height: 30px;"></div>
     <div> 
 	    <ion-list>
-		  <ion-item ng-repeat="sorteio in data.sorteios | filter : data.filter">
+		  <ion-item ng-repeat="sorteio in data.sorteios.items | filter : data.filter">
           <div class="div-table">
             <div class="div-table-row"> 
             <div class="div-table-col">{{sorteio.id}}</div>

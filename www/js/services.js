@@ -7,7 +7,7 @@ angular.module('app.services', [])
   .factory('ContaCorrenteListFactory',['$http',function($http){
 
     var listSrv = {
-      getContaCorrente: function(login,tokenSessao,callback){
+      getContaCorrente: function(login,tokenSessao,callback,callbackError){
         $http.defaults.headers.post["Content-Type"] = "application/json";
         return $http({
             url: 'http://webas.sefaz.pi.gov.br/npservices/contaCorrente',
@@ -21,26 +21,8 @@ angular.module('app.services', [])
         },
         function(data, status) { // optional
                 // failed
-                return status;
+                return callbackError(status);
         });
-/*    var data =   {
-		nome:'João da Silva',
-		dataUltimoAcesso:'20/11/2015',
-		saldo:'R$ 165,00',
-		lancamentosFuturos:'R$ 75,00',
-    itensConta:[
-      { title: 'Créditos Liberados', value:'R$ 100,00' },
-      { title: 'Créditos Doados', value:'R$ 90,00' },
-      { title: 'Créditos Sorteio', value:'R$ 30,00' },
-      { title: 'Estorno Conta Bancária', value:'R$ 0,00' },
-      { title: 'Desbloqueio ICMS', value:'R$ 10,00' },
-      { title: 'Débitos Transferência', value:'R$ 40,00' },
-      { title: 'Débitos Doação', value:'R$ 5,00' },
-      { title: 'Saldo Créditos Liberados', value:'R$ 165,00' }
-    ]
-
-	};
-		return data;*/
     }
     };
     return listSrv;
@@ -66,7 +48,7 @@ angular.module('app.services', [])
           return [];
         }
       },
-      getNotas: function(login,tokenSessao,callback){
+      getNotas: function(login,tokenSessao,callback,callbackError){
         $http.defaults.headers.post["Content-Type"] = "application/json";
         return $http({
             url: 'http://webas.sefaz.pi.gov.br/npservices/notas/list',
@@ -84,7 +66,35 @@ angular.module('app.services', [])
         },
         function(data, status) { // optional
                 // failed
-                return status;
+                return callbackError(status);
+        });
+      },
+      findNotas: function(login,tokenSessao,findObject,callback,callbackError){
+        $http.defaults.headers.post["Content-Type"] = "application/json";
+        return $http({
+            url: 'http://webas.sefaz.pi.gov.br/npservices/notas/find',
+            method: "POST",
+            data: { 'login' : login,
+                    'tokenSessao': tokenSessao,
+                    'cpfCnpj': findObject.cpfCnpj,
+                    'numSerie': findObject.numSerie,
+                    'razaoSocial': findObject.razaoSocial,
+                    'tipoDocumento': findObject.tipoDocumento,
+                    'numDocumento': findObject.numDocumento,
+                    'data': findObject.dataNota
+                  }
+        })
+        .then(function(response) {
+                var responseData =   {
+                    "filter" : '',
+                    "notas": response.data.data.notas,
+                };
+                // success
+                return callback(responseData);
+        },
+        function(data, status) { // optional
+                // failed
+                return callbackError(status);
         });
       }
   };
@@ -95,7 +105,7 @@ angular.module('app.services', [])
   .factory('CuponsListFactory',['$http',function($http){
 
     var listSrv = {
-      getCupons: function(login,tokenSessao,callback){
+      getCupons: function(login,tokenSessao,callback,callbackError){
         $http.defaults.headers.post["Content-Type"] = "application/json";
         return $http({
             url: 'http://webas.sefaz.pi.gov.br/npservices/cupons/list',
@@ -113,7 +123,7 @@ angular.module('app.services', [])
         },
         function(data, status) { // optional
                 // failed
-                return status;
+                return callbackError(status);
         });
       }
   };
@@ -123,7 +133,7 @@ angular.module('app.services', [])
   .factory('SorteioListFactory',['$http',function($http){
 
     var listSrv = {
-       getSorteios: function(login,tokenSessao,callback){
+       getSorteios: function(login,tokenSessao,callback,callbackError){
         $http.defaults.headers.post["Content-Type"] = "application/json";
         return $http({
             url: 'http://webas.sefaz.pi.gov.br/npservices/sorteios/list',
@@ -141,7 +151,7 @@ angular.module('app.services', [])
         },
         function(data, status) { // optional
                 // failed
-                return status;
+                return callbackError(status);
         });
     }
   };
@@ -343,7 +353,7 @@ angular.module('app.services', [])
        * @param  {Function} callback
        * @return {[type]}
        */
-      login : function login (cpf,password,callback){
+      login : function login (cpf,password,callback,callbackError){
         $http.defaults.headers.post["Content-Type"] = "application/json";
         return $http({
             url: 'http://webas.sefaz.pi.gov.br/npservices/login',
@@ -357,7 +367,7 @@ angular.module('app.services', [])
         },
         function(data, status) { // optional
                 // failed
-                return status;
+                return callbackError(status);
         });
         /*return $http.post('http://webas.sefaz.pi.gov.br/npservices/login', param)
                 .then(function(data) {

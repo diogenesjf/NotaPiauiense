@@ -8,7 +8,7 @@
 
     <div class="spacer" style="width: 300px; height: 30px;"></div>
 	    <ion-list>
-		  <ion-item ng-repeat="nota in dataNotas.notas | filter : dataNotas.filter">
+		  <ion-item ng-repeat="nota in dataNotas.notas.items | filter : dataNotas.filter">
 		 	<div class="div-table" ng-click="detailNota(nota);">
 			    <div class="div-table-row"> 
 					<div class="div-table-col">{{nota.title}}</div>

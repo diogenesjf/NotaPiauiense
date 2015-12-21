@@ -103,18 +103,31 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 })
   
 
-  .controller('contaCtrl', ['ContaCorrenteListFactory', 'sessionService', '$scope', '$ionicModal',
-    function(ContaCorrenteListFactory, sessionService,  $scope, $ionicModal) {
+  .controller('contaCtrl', ['ContaCorrenteListFactory',   '$scope',
+  '$state',
+  'sessionService',
+  '$ionicModal',
+  'appDBBridge',
+  '$timeout',
+  '$ionicLoading', '$ionicPopup',
+    function(ContaCorrenteListFactory, $scope, $state, sessionService,  $ionicModal, appDBBridge, $timeout, $ionicLoading, $ionicPopup) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = true;
 		$scope.menuData.menuRightIconExit = true;
+		$ionicLoading.show();
 		$scope.user = sessionService.get('user');
-		ContaCorrenteListFactory.getContaCorrente($scope.user.login,$scope.user.tokenSessao,$scope.successConta);
+		ContaCorrenteListFactory.getContaCorrente($scope.user.login,$scope.user.tokenSessao,$scope.successConta,$scope.errorConta);
 	});
 
 
 	$scope.successConta = function(conta) {
 		$scope.contaCorrente = conta;
+		$ionicLoading.hide();
+		$scope.$broadcast('scroll.refreshComplete');
+	};
+    $scope.errorConta = function(notas) {
+		$ionicLoading.hide();
+		$scope.$broadcast('scroll.refreshComplete');
 	};
 
 }])
@@ -159,21 +172,7 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
         } else {
 			$ionicLoading.show();
 			$scope.user = sessionService.get('user');
-			appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [$scope.user.login,$scope.user.tokenSessao,$scope.successNotas])
-			.then(function (updatedDoc) {
-				var u = $timeout(function () {
-					$scope.dataNotas = updatedDoc;
-					$ionicLoading.hide();
-					$scope.$broadcast('scroll.refreshComplete');
-				}, 1000);
-				$scope.$on('$destroy', function () {
-					u.cancel();
-				});
-			}, function() {
-			}, function() {
-				$ionicLoading.hide();
-				$scope.$broadcast('scroll.refreshComplete');
-			});
+			appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [$scope.user.login,$scope.user.tokenSessao,$scope.successNotas,$scope.errorNotas]);
         }
     };
 
@@ -186,6 +185,10 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 		$scope.$on('$destroy', function () {
 			u.cancel();
 		});
+	};
+    $scope.errorNotas = function(notas) {
+		$ionicLoading.hide();
+		$scope.$broadcast('scroll.refreshComplete');
 	};
 
 
@@ -357,11 +360,12 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 .controller('consultaCtrl',  ['NotasListFactory',
 							  '$scope', 
 							  '$state',
+							  'sessionService',
 							  '$ionicModal',
 							  'appDBBridge',
 							  '$timeout',
 							  '$ionicLoading', '$ionicPopup',
-    function(NotasListFactory, $scope, $state, $ionicModal, appDBBridge, $timeout, $ionicLoading, $ionicPopup) {
+    function(NotasListFactory, $scope, $state, sessionService, $ionicModal, appDBBridge, $timeout, $ionicLoading, $ionicPopup) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = true;
 		$scope.menuData.menuRightIconExit = true;
@@ -419,7 +423,7 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
         }
     };
 
-    $scope.getRemoteNotas = function() {
+    $scope.getRemoteNotas = function(findObj) {
         if (!$scope.isOnline()) {
             $ionicPopup.alert({
                 title: 'Oops!',
@@ -431,21 +435,7 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
         } else {
 			$ionicLoading.show();        	
 		    $scope.user = sessionService.get('user');
-			appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [$scope.user.login,$scope.user.tokenSessao,$scope.successNotas])
-			.then(function (updatedDoc) {
-				var u = $timeout(function () {
-					$scope.dataNotas = updatedDoc;
-					$ionicLoading.hide();
-					$scope.$broadcast('scroll.refreshComplete');
-				}, 1000);
-				$scope.$on('$destroy', function () {
-					u.cancel();
-				});
-			}, function() {
-			}, function() {
-				$ionicLoading.hide();
-				$scope.$broadcast('scroll.refreshComplete');
-			});
+			appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.findNotas', [$scope.user.login,$scope.user.tokenSessao,findObj,$scope.successNotas,$scope.errorNotas]);
         }
     };
 
@@ -457,6 +447,21 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
     	focusFirstInput: true
       });
 
+
+    $scope.successNotas = function(notas) {
+		var u = $timeout(function () {
+			$scope.dataNotas = notas;
+			$ionicLoading.hide();
+			$scope.$broadcast('scroll.refreshComplete');
+		}, 1000);
+		$scope.$on('$destroy', function () {
+			u.cancel();
+		});
+	};
+    $scope.errorNotas = function(notas) {
+		$ionicLoading.hide();
+		$scope.$broadcast('scroll.refreshComplete');
+	};
 
      $scope.showResultDialog = function(action) {
         $scope.action = action;
@@ -485,25 +490,29 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
       }
 
       $scope.buscar = function(form) {
-        var newItem = {};
+        var findObj = {};
         // Add values from form to object
-        newItem.cpfCnpj = form.cpfCnpj.$modelValue;
-        newItem.razaoSocial = form.razaoSocial.$modelValue;
-        newItem.numDocumento = form.numDocumento.$modelValue;
-        newItem.serie = form.serie.$modelValue;
-        newItem.dataNota = $scope.dataNota.inputDate;
+        findObj.cpfCnpj = form.cpfCnpj.$modelValue;
+        findObj.razaoSocial = form.razaoSocial.$modelValue;
+        findObj.numDocumento = form.numDocumento.$modelValue;
+        findObj.serie = form.serie.$modelValue;
+        findObj.dataNota = $scope.dataNota.inputDate;
+        findObj.tipoDocumento = form.tipoDocumento.$modelValue;
         // Save new list in scope and factory
         $scope.showResultDialog('result');
-        $scope.getRemoteNotas();
+        $scope.getRemoteNotas(findObj);
 //        NotasListFactory.setList($scope.list);
       };
 
 }])
       
-.controller('cuponsCtrl', ['CuponsListFactory','$scope', '$ionicModal',
-  'appDBBridge',
-  '$timeout',
-    function(CuponsListFactory, $scope, $ionicModal, appDBBridge, $timeout) {
+.controller('cuponsCtrl', ['CuponsListFactory','$scope', '$state',
+							  'sessionService',
+							  '$ionicModal',
+							  'appDBBridge',
+							  '$timeout',
+							  '$ionicLoading', '$ionicPopup',
+    function(CuponsListFactory, $scope, $state, sessionService, $ionicModal, appDBBridge, $timeout, $ionicLoading, $ionicPopup) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = true;
 		$scope.menuData.menuRightIconExit = true;
@@ -512,12 +521,12 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 			$ionicLoading.show();
 			$scope.user = sessionService.get('user');
 			//appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [$scope.user.login,$scope.user.tokenSessao,$scope.successNotas]);
-			CuponsListFactory.getCupons($scope.user.login,$scope.user.tokenSessao,$scope.successCupons);
+			CuponsListFactory.getCupons($scope.user.login,$scope.user.tokenSessao,$scope.successCupons,$scope.errorCupons);
 	  });
 
     $scope.successCupons = function(cupons) {
 		var u = $timeout(function () {
-			$scope.cupons = cupons;
+			$scope.data = cupons;
 			$ionicLoading.hide();
 			$scope.$broadcast('scroll.refreshComplete');
 		}, 1000);
@@ -525,14 +534,21 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 			u.cancel();
 		});
 	};
+    $scope.errorCupons = function(status) {
+		$ionicLoading.hide();
+		$scope.$broadcast('scroll.refreshComplete');
+	};
 
 }])
 
 
-.controller('sorteioCtrl', ['SorteioListFactory','$scope','$state', '$ionicModal',
-  'appDBBridge',
-  '$timeout',
-    function(SorteioListFactory, $scope, $state, $ionicModal, appDBBridge, $timeout) {
+.controller('sorteioCtrl', ['SorteioListFactory','$scope','$state', 
+							  'sessionService',
+							  '$ionicModal',
+							  'appDBBridge',
+							  '$timeout',
+							  '$ionicLoading', '$ionicPopup',
+    function(SorteioListFactory, $scope, $state, sessionService, $ionicModal, appDBBridge, $timeout, $ionicLoading, $ionicPopup) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = true;
 		$scope.menuData.menuRightIconExit = true;
@@ -542,7 +558,7 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 		$ionicLoading.show();
 		$scope.user = sessionService.get('user');
 		//appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [$scope.user.login,$scope.user.tokenSessao,$scope.successNotas]);
-		SorteioListFactory.getSorteios($scope.user.login,$scope.user.tokenSessao,$scope.successSorteios);
+		SorteioListFactory.getSorteios($scope.user.login,$scope.user.tokenSessao,$scope.successSorteios,$scope.errorSorteios);
 	  });
 
 	$scope.voltar = function(user) {
@@ -558,6 +574,11 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 		$scope.$on('$destroy', function () {
 			u.cancel();
 		});
+	};
+
+    $scope.errorSorteios = function(status) {
+		$ionicLoading.hide();
+		$scope.$broadcast('scroll.refreshComplete');
 	};
 
 }])
