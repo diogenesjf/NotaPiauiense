@@ -92,35 +92,28 @@ angular.module('app.services', [])
   }])
 
 
-.factory('NotasList', ['$http', function($http){
-   return {
-      /**
-       * [thisUserFiles request for files belonging to this user]
-       * @param  {[type]}   param
-       * @param  {Function} callback
-       * @return {[type]}
-       */
-      getNotas : function getNotas (param){
-        return $http.get('http://localhost:3000/notas', param)
-                .then(function(data) {
-                  return data;
-                }, function (data, status) {
-                  return status;
-                });
-      }
-   };
- }])
-
   .factory('CuponsListFactory',['$http',function($http){
 
     var listSrv = {
-      getCupons: function(){
-        return $http.get("http://localhost:3000/cupons").then(function(response){
-          var data =   {
-              "filter" : '',
-              "cupons": response.data,
-          };
-          return data;
+      getCupons: function(login,tokenSessao,callback){
+        $http.defaults.headers.post["Content-Type"] = "application/json";
+        return $http({
+            url: 'http://webas.sefaz.pi.gov.br/npservices/cupons/list',
+            method: "POST",
+            data: { 'login' : login,
+                    'tokenSessao': tokenSessao }
+        })
+        .then(function(response) {
+                var responseData =   {
+                    "filter" : '',
+                    "cupons": response.data.data.cupons,
+                };
+                // success
+                return callback(responseData);
+        },
+        function(data, status) { // optional
+                // failed
+                return status;
         });
       }
   };
@@ -130,14 +123,26 @@ angular.module('app.services', [])
   .factory('SorteioListFactory',['$http',function($http){
 
     var listSrv = {
-      getSorteios: function(){
-          return $http.get("http://localhost:3000/sorteios").then(function(response){
-            var data =   {
-                "filter" : '',
-                "sorteios": response.data,
-            };
-            return data;
-          });
+       getSorteios: function(login,tokenSessao,callback){
+        $http.defaults.headers.post["Content-Type"] = "application/json";
+        return $http({
+            url: 'http://webas.sefaz.pi.gov.br/npservices/sorteios/list',
+            method: "POST",
+            data: { 'login' : login,
+                    'tokenSessao': tokenSessao }
+        })
+        .then(function(response) {
+                var responseData =   {
+                    "filter" : '',
+                    "sorteios": response.data.data.sorteios,
+                };
+                // success
+                return callback(responseData);
+        },
+        function(data, status) { // optional
+                // failed
+                return status;
+        });
     }
   };
     return listSrv;

@@ -157,6 +157,7 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
                 $scope.$broadcast('scroll.refreshComplete');
             });
         } else {
+			$ionicLoading.show();
 			$scope.user = sessionService.get('user');
 			appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [$scope.user.login,$scope.user.tokenSessao,$scope.successNotas])
 			.then(function (updatedDoc) {
@@ -428,21 +429,23 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
                 $scope.$broadcast('scroll.refreshComplete');
             });
         } else {
-		    appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [])
-		    .then(function (updatedDoc) {
-		      var u = $timeout(function () {
-		        $scope.dataNotas = updatedDoc;
-	            $ionicLoading.hide();
-	            $scope.$broadcast('scroll.refreshComplete');
-		      }, 1000);
-		      $scope.$on('$destroy', function () {
-		        u.cancel();
-		      });
-		    }, function() {
-	        }, function() {
-	            $ionicLoading.hide(); 
-	            $scope.$broadcast('scroll.refreshComplete');
-	        });
+			$ionicLoading.show();        	
+		    $scope.user = sessionService.get('user');
+			appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [$scope.user.login,$scope.user.tokenSessao,$scope.successNotas])
+			.then(function (updatedDoc) {
+				var u = $timeout(function () {
+					$scope.dataNotas = updatedDoc;
+					$ionicLoading.hide();
+					$scope.$broadcast('scroll.refreshComplete');
+				}, 1000);
+				$scope.$on('$destroy', function () {
+					u.cancel();
+				});
+			}, function() {
+			}, function() {
+				$ionicLoading.hide();
+				$scope.$broadcast('scroll.refreshComplete');
+			});
         }
     };
 
@@ -506,18 +509,22 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 		$scope.menuData.menuRightIconExit = true;
 	});
 	$scope.$on('$ionicView.enter', function(e, data){
-
-	    //appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [])
-	    CuponsListFactory.getCupons().then(function (updatedDoc) {
-	      var u = $timeout(function () {
-	        $scope.data = updatedDoc;
-//	        $scope.dataNotas = _.values(_.omit(updatedDoc, ['filter', 'notas']));
-	      }, 1000);
-	      $scope.$on('$destroy', function () {
-	        u.cancel();
-	      });
-	    });
+			$ionicLoading.show();
+			$scope.user = sessionService.get('user');
+			//appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [$scope.user.login,$scope.user.tokenSessao,$scope.successNotas]);
+			CuponsListFactory.getCupons($scope.user.login,$scope.user.tokenSessao,$scope.successCupons);
 	  });
+
+    $scope.successCupons = function(cupons) {
+		var u = $timeout(function () {
+			$scope.cupons = cupons;
+			$ionicLoading.hide();
+			$scope.$broadcast('scroll.refreshComplete');
+		}, 1000);
+		$scope.$on('$destroy', function () {
+			u.cancel();
+		});
+	};
 
 }])
 
@@ -532,20 +539,25 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 	});
 	$scope.$on('$ionicView.enter', function(e, data){
 
-	    //appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [])
-	    SorteioListFactory.getSorteios().then(function (updatedDoc) {
-	      var u = $timeout(function () {
-	        $scope.data = updatedDoc;
-//	        $scope.dataNotas = _.values(_.omit(updatedDoc, ['filter', 'notas']));
-	      }, 1000);
-	      $scope.$on('$destroy', function () {
-	        u.cancel();
-	      });
-	    });
+		$ionicLoading.show();
+		$scope.user = sessionService.get('user');
+		//appDBBridge.fetchAndSyncDataToScope('', 'NotasListFactory.getNotas', [$scope.user.login,$scope.user.tokenSessao,$scope.successNotas]);
+		SorteioListFactory.getSorteios($scope.user.login,$scope.user.tokenSessao,$scope.successSorteios);
 	  });
 
 	$scope.voltar = function(user) {
 		$state.go('tabsController.conta');
+	};
+
+	$scope.successSorteios = function(sorteios) {
+		var u = $timeout(function () {
+			$scope.data = sorteios;
+			$ionicLoading.hide();
+			$scope.$broadcast('scroll.refreshComplete');
+		}, 1000);
+		$scope.$on('$destroy', function () {
+			u.cancel();
+		});
 	};
 
 }])
