@@ -23,19 +23,31 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 
 })
    
-.controller('cadastro-Passo2Ctrl', function($scope, $state) {
+.controller('cadastro-Passo2Ctrl',['JsonFactory','MunicipioDataService','$scope', '$state',
+	function(JsonFactory,MunicipioDataService,$scope, $state) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = false;
 		$scope.menuData.menuRightIconExit = false;
 	});
+	$scope.logradouros = JsonFactory.getLogradouros();
+	$scope.ufs = JsonFactory.getUFs();
 	$scope.proximo = function(user) {
 		$state.go('cadastro-Passo3');
 	};
 	$scope.anterior = function(user) {
 		$state.go('cadastro-Passo2');
 	};
+    //$scope.data = { "municipios" : [], "search" : '' };
 
-})
+	$scope.searchMunicipio = function(query,uf) {
+		return MunicipioDataService.searchMunicipio(query,uf);/*.then(
+			function(matches) {
+				return matches;
+			}
+		);*/
+	};
+
+}])
    
 .controller('cadastro-Passo3Ctrl', function($scope, $state) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {

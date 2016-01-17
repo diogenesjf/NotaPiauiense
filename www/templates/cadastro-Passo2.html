@@ -8,7 +8,7 @@
         </button>
     </ion-nav-buttons>    
    <ion-content padding="'true'" scroll="false" class="has-header">
-        <form class="list">
+        <form class="list" name="form" ng-model="form">
             <ion-list>
                 <label class="item item-input">
                     <span class="input-label">CEP</span>
@@ -16,7 +16,12 @@
                 </label>
                 <label class="item item-select">
                     <span class="input-label">Logradouro</span>
-                    <select></select>
+                    <select ng-model="logradouro">
+                        <option ng-repeat="item in logradouros.tiposLogradouro"
+                                value="{{item.id}}">
+                          {{item.value}}
+                        </option>
+                    </select>
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Endereço</span>
@@ -34,13 +39,23 @@
                     <span class="input-label">Bairro</span>
                     <input type="text" placeholder="">
                 </label>
-                <label class="item item-input">
-                    <span class="input-label">Município</span>
-                    <input type="text" placeholder="">
-                </label>
                 <label class="item item-select">
                     <span class="input-label">UF</span>
-                    <select></select>
+                    <select ng-model="uf">
+                        <option ng-repeat="item in ufs.ufs"
+                                value="{{item.id}}">
+                          {{item.value}}
+                        </option>
+                    </select>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Município</span>
+                    <i class="icon ion-ios7-search placeholder-icon"></i>
+                    <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model" items-method="searchMunicipio(query,uf)" 
+                    item-value-key="id" items-method-value-key="descricao" max-selected-items="1"
+                    placeholder="Digite o município ..." select-items-label="Selecione..." 
+                    selected-items-label="Selecionado:" cancel-label="Voltar" />
+                    
                 </label>
             </ion-list>
             <div class="spacer" style="width: 300px; height: 16px;"></div>
