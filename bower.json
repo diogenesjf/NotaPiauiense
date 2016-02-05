@@ -6,11 +6,16 @@
     "ion-profile-picture": "https://github.com/israelidanny/ion-profile-picture.git"
   },
   "resolutions": {
-    "ion-profile-picture": "master"
+    "ion-profile-picture": "master",
+    "angular": "1.4.8"
   },
   "dependencies": {
     "ionic-datepicker": "~0.9.0",
     "pouchdb": "~5.1.0",
-    "ion-autocomplete": "~0.3.1"
+    "ion-autocomplete": "~0.3.1",
+    "ng-cpf-cnpj": "~0.0.5",
+    "cpf_cnpj": "~0.0.4",
+    "angular-ui-utils": "~3.0.0",
+    "ionic-toast": "~0.2.0"
   }
 }

@@ -9,33 +9,149 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 
 })
    
-.controller('cadastro-Passo1Ctrl', function($scope, $state) {
-	$scope.$on('$ionicView.beforeEnter', function (e, data) {
-		$scope.menuData.menuLeftIconOn = false;
-		$scope.menuData.menuRightIconExit = false;
-	});
-	$scope.proximo = function(user) {
-		$state.go('cadastro-Passo2');
-	};
-	$scope.anterior = function(user) {
-		$state.go('main');
-	};
-
-})
-   
-.controller('cadastro-Passo2Ctrl',['JsonFactory','MunicipioDataService','$scope', '$state',
-	function(JsonFactory,MunicipioDataService,$scope, $state) {
-	$scope.$on('$ionicView.beforeEnter', function (e, data) {
-		$scope.menuData.menuLeftIconOn = false;
-		$scope.menuData.menuRightIconExit = false;
-	});
+.controller('cadastroCtrl',['JsonFactory','MunicipioDataService','CadastroPFService','$scope', '$state','$filter','$ionicLoading','ionicToast', '$ionicNavBarDelegate',
+	function(JsonFactory,MunicipioDataService,CadastroPFService,$scope, $state,$filter,$ionicLoading,ionicToast,$ionicNavBarDelegate) {
+	var weekDaysList = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
+	var monthList = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 	$scope.logradouros = JsonFactory.getLogradouros();
 	$scope.ufs = JsonFactory.getUFs();
-	$scope.proximo = function(user) {
-		$state.go('cadastro-Passo3');
+	$scope.cadastro = {};
+
+	$scope.aaaErrorTips = {
+      required: 'Razão social é obrigatória',
+      minlength: 'This field does not match the min length',
+      maxlength: 'This field does not match the max length',
+      pattern: 'This field is not right',
+      number: 'This field should be a number'
+    };
+	$scope.nomeErrorTips = {
+      required: 'Nome é obrigatório'
+    };
+	$scope.nomeMaeErrorTips = {
+      required: 'O nome da mãe é obrigatório'
+    };
+	$scope.cpfErrorTips = {
+      required: 'O CPF é obrigatório',
+      cpf: 'O CPF é inválido'
+    };
+	$scope.dataNascimentoErrorTips = {
+      required: 'Data de nascimento é obrigatória'
+    };
+	$scope.telefoneErrorTips = {
+      required: 'Telefone é obrigatório',
+      pattern: 'O telefone é inválido'
+    };
+	$scope.celularErrorTips = {
+      required: 'Celular é obrigatório',
+      pattern: 'O celular é inválido'
+    };
+	$scope.whatsappErrorTips = {
+      pattern: 'O Whatsapp é inválido'
+    };
+	$scope.cepErrorTips = {
+      required: 'CEP é obrigatório'
+    };
+	$scope.logradouroErrorTips = {
+      required: 'Logradouro é obrigatório'
+    };
+	$scope.enderecoErrorTips = {
+      required: 'Endereço é obrigatório'
+    };
+	$scope.numeroErrorTips = {
+      required: 'Número é obrigatório'
+    };
+	$scope.complementoErrorTips = {
+      required: 'Complemento é obrigatório'
+    };
+	$scope.bairroErrorTips = {
+      required: 'Bairro é obrigatório'
+    };
+	$scope.ufErrorTips = {
+      required: 'UF é obrigatório'
+    };
+	$scope.emailErrorTips = {
+      required: 'Email é obrigatório'
+    };
+	$scope.confirmaEmailErrorTips = {
+      required: 'Confirma Email é obrigatório'
+    };
+	$scope.senhaErrorTips = {
+      required: 'Senha é obrigatório',
+      minlength: 'A senha não pode ser menor que 6 caracteres.',
+    };
+	$scope.confirmaSenhaErrorTips = {
+      required: 'Confirma Senha é obrigatório',
+      minlength: 'A confirmação da senha não pode ser menor que 6 caracteres.',
+    };
+	$scope.fraseSegurancaErrorTips = {
+      required: 'Frase de Segurança é obrigatório'
+    };
+	$scope.lembreteSenhaErrorTips = {
+      required: 'Lembrete da Senha é obrigatório'
+    };
+    $scope.$on('$ionicView.beforeEnter', function (e, data) {
+		$scope.menuData.menuLeftIconOn = false;
+		$scope.menuData.menuRightIconExit = false;
+	});
+    $ionicNavBarDelegate.showBackButton(false);
+	$scope.cadastroEscolha = function() {
+		$state.go('cadastro-Escolha');
 	};
+	$scope.cadastroPF = function() {
+		$state.go('cadastro-Passo1');
+	};
+	$scope.cadastroPJ = function() {
+		$state.go('cadastroPJ-Passo1');
+	};
+
 	$scope.anterior = function(user) {
+		$state.go('cadastro-Escolha');
+	};
+	$scope.passo1 = function() {
+		$scope.cadastro = CadastroPFService.get();
+		$state.go('cadastro-Passo1');
+	};
+	$scope.passo2voltar = function() {
+		$scope.cadastro = CadastroPFService.get();
 		$state.go('cadastro-Passo2');
+	};
+	$scope.passo2 = function(form) {
+		if (form.telefoneCompl && form.telefoneCompl.length >= 10) {
+			form.dddTelefone = form.telefoneCompl.substring(0,2);
+			form.telefone = form.telefoneCompl.substring(2,form.telefoneCompl.length);
+		} else if (form.telefoneCompl && form.telefoneCompl.length > 0) { 
+			ionicToast.show('Telefone inválido', 'bottom', true, 2500);
+//			$ionicLoading.show({ template: 'Telefone inválido', noBackdrop: true, duration: 2000 });
+			return;
+		}
+		if (form.celularCompl && form.celularCompl.length >= 10) {
+			form.dddCelular = form.celularCompl.substring(0,2);
+			form.celular = form.celularCompl.substring(2,form.celularCompl.length);
+		} else if (form.celularCompl && form.celularCompl.length > 0) {
+			ionicToast.show('Celular inválido', 'bottom', true, 2500);
+			return;
+		}
+		if (form.whatsappCompl && form.whatsappCompl.length >= 10) {
+			form.dddWhatsapp = form.whatsappCompl.substring(0,2);
+			form.whatsapp = form.whatsappCompl.substring(2,form.whatsappCompl.length);
+		} else if (form.whatsappCompl && form.whatsappCompl.length > 0) {
+			ionicToast.show('Whatsapp inválido', 'bottom', true, 2500);
+			return;
+		}
+		if (!$scope.dataNascimentoSelected || typeof($scope.dataNascimentoSelected) === 'undefined' ) {
+			ionicToast.show('Data de nascimento inválida', 'bottom', true, 2500);
+			return;
+		} else {
+			form.dataNascimento = $filter('date')($scope.dataNascimentoSelected, 'dd/MM/yyyy');
+		}
+		CadastroPFService.merge(form);
+		$scope.cadastro = CadastroPFService.get();
+		$state.go('cadastro-Passo2');
+	};
+	$scope.passo3 = function(form) {
+		CadastroPFService.merge(form);
+		$scope.cadastro = CadastroPFService.get();
+		$state.go('cadastro-Passo3');
 	};
     //$scope.data = { "municipios" : [], "search" : '' };
 
@@ -46,23 +162,238 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 			}
 		);*/
 	};
+	$scope.$watch("cadastro.telefone", function(newValue, oldValue){
+
+        if (newValue && newValue.length > 11){
+            $scope.cadastro.telefone = oldValue;
+        }
+    });
+	$scope.salvar = function(form) {
+		if (form.email != form.confirmaEmail) {
+			ionicToast.show('E-mail e confirmação de e-mail são diferentes', 'bottom', true, 2500);
+			return;
+		}
+		if (form.senha != form.confirmaSenha) {
+			ionicToast.show('Senha e confirmação de senha são diferentes', 'bottom', true, 2500);
+			return;
+		}
+		CadastroPFService.merge(form);
+		$scope.form = CadastroPFService.save($scope.sucessoSalvar,$scope.errorSalvar);
+	};
+	$scope.sucessoSalvar = function(responseData) {
+		if (responseData.result) {
+			$ionicLoading.show({ template: 'Operação realizada com sucesso!', noBackdrop: true, duration: 2000 });
+			$state.go('sucesso');
+		} else {
+			$ionicLoading.show({ template: 'Falha ao salvar os dados.Mensagem:'+responseData.message[0], noBackdrop: true, duration: 2000 });
+		}
+	};
+	$scope.errorSalvar = function(message) {
+		$ionicLoading.show({ template: 'Falha ao salvar os dados.Mensagem:'+message, noBackdrop: true, duration: 2000 });
+		return;
+	};
+
+	$scope.dataNascimento = {
+      titleLabel: 'Data',  //Optional
+      todayLabel: 'Hoje',  //Optional
+      closeLabel: 'Fechar',  //Optional
+      setLabel: 'Atribuir',  //Optional
+      setButtonType : 'button-assertive',  //Optional
+      todayButtonType : 'button-assertive',  //Optional
+      closeButtonType : 'button-assertive',  //Optional
+      //inputDate: new Date(),  //Optional
+      mondayFirst: true,  //Optional
+//    disabledDates: disabledDates, //Optional
+      weekDaysList: weekDaysList, //Optional
+      monthList: monthList, //Optional
+      templateType: 'popup', //Optional
+      showTodayButton: 'true', //Optional
+      modalHeaderColor: 'bar-positive', //Optional
+      modalFooterColor: 'bar-positive', //Optional
+      from: new Date(1900, 8, 2), //Optional
+      to: new Date(2016, 8, 25),  //Optional
+      callback: function (val) {  //Mandatory
+        $scope.datePickerCallback(val);
+      },
+      dateFormat: 'dd/MM/yyyy', //Optional
+      closeOnSelect: true, //Optional
+    };
+
+	$scope.datePickerCallback = function (val) {
+		if (typeof(val) === 'undefined') {
+			console.log('No date selected');
+		} else {
+			$scope.dataNascimentoSelected = val;
+			console.log('Selected date is : ', val);
+		}
+	};
 
 }])
    
-.controller('cadastro-Passo3Ctrl', function($scope, $state) {
+.controller('cadastroPJCtrl',['JsonFactory','MunicipioDataService','CadastroPJService','$scope', '$state','$ionicLoading','ionicToast','$ionicNavBarDelegate',
+	function(JsonFactory,MunicipioDataService,CadastroPJService,$scope, $state,$ionicLoading,ionicToast,$ionicNavBarDelegate) {
+	var weekDaysList = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
+	var monthList = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+	$scope.logradouros = JsonFactory.getLogradouros();
+	$scope.ufs = JsonFactory.getUFs();
+	$scope.cadastro = {};
+	$scope.razaoSocialErrorTips = {
+      required: 'Razão social é obrigatória'
+    };
+	$scope.cnpjErrorTips = {
+      required: 'CNPJ é obrigatório',
+      cnpj: 'O CNPJ é inválido'
+    };
+	$scope.cpfErrorTips = {
+      required: 'CPF do representante legal é obrigatório',
+      cpf: 'O CPF é inválido'
+    };
+	$scope.representanteLegalErrorTips = {
+      required: 'Representante legal é obrigatório'
+    };
+	$scope.telefoneErrorTips = {
+      required: 'Telefone é obrigatório',
+      pattern: 'O telefone é inválido'
+    };
+	$scope.celularErrorTips = {
+      required: 'Celular é obrigatório',
+      pattern: 'O celular é inválido'
+    };
+	$scope.whatsappErrorTips = {
+      pattern: 'O Whatsapp é inválido'
+    };
+	$scope.cepErrorTips = {
+      required: 'CEP é obrigatório'
+    };
+	$scope.logradouroErrorTips = {
+      required: 'Logradouro é obrigatório'
+    };
+	$scope.enderecoErrorTips = {
+      required: 'Endereço é obrigatório'
+    };
+	$scope.numeroErrorTips = {
+      required: 'Número é obrigatório'
+    };
+	$scope.complementoErrorTips = {
+      required: 'Complemento é obrigatório'
+    };
+	$scope.bairroErrorTips = {
+      required: 'Bairro é obrigatório'
+    };
+	$scope.ufErrorTips = {
+      required: 'UF é obrigatório'
+    };
+	$scope.emailErrorTips = {
+      required: 'Email é obrigatório'
+    };
+	$scope.confirmaEmailErrorTips = {
+      required: 'Confirma Email é obrigatório'
+    };
+	$scope.senhaErrorTips = {
+      required: 'Senha é obrigatório',
+      minlength: 'A senha não pode ser menor que 6 caracteres.',
+    };
+	$scope.confirmaSenhaErrorTips = {
+      required: 'Confirma Senha é obrigatório',
+      minlength: 'A confirmação da senha não pode ser menor que 6 caracteres.',
+    };
+	$scope.fraseSegurancaErrorTips = {
+      required: 'Frase de Segurança é obrigatório'
+    };
+	$scope.lembreteSenhaErrorTips = {
+      required: 'Lembrete da Senha é obrigatório'
+    };
+
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = false;
 		$scope.menuData.menuRightIconExit = false;
 	});
-	$scope.salvar = function(user) {
-		$state.go('sucesso');
-	};
+    $ionicNavBarDelegate.showBackButton(false);
 	$scope.anterior = function(user) {
-		$state.go('cadastro-Passo3');
+		$state.go('cadastro-Escolha');
+	};
+	$scope.passo1 = function() {
+		$scope.cadastro = CadastroPJService.cadastro;
+		$state.go('cadastroPJ-Passo1');
+	};
+	$scope.passo2voltar = function() {
+		$scope.cadastro = CadastroPJService.cadastro;
+		$state.go('cadastroPJ-Passo2');
+	};
+	$scope.passo2 = function(form) {
+		if (form.telefoneCompl && form.telefoneCompl.length >= 10) {
+			form.dddTelefone = form.telefoneCompl.substring(0,2);
+			form.telefone = form.telefoneCompl.substring(2,form.telefoneCompl.length);
+		} else if (form.telefoneCompl && form.telefoneCompl.length > 0) { 
+			ionicToast.show('Telefone inválido', 'bottom', true, 2500);
+//			$ionicLoading.show({ template: 'Telefone inválido', noBackdrop: true, duration: 2000 });
+			return;
+		}
+		if (form.celularCompl && form.celularCompl.length >= 10) {
+			form.dddCelular = form.celularCompl.substring(0,2);
+			form.celular = form.celularCompl.substring(2,form.celularCompl.length);
+		} else if (form.celularCompl && form.celularCompl.length > 0) {
+			ionicToast.show('Celular inválido', 'bottom', true, 2500);
+			return;
+		}
+		if (form.whatsappCompl && form.whatsappCompl.length >= 10) {
+			form.dddWhatsapp = form.whatsappCompl.substring(0,2);
+			form.whatsapp = form.whatsappCompl.substring(2,form.whatsappCompl.length);
+		} else if (form.whatsappCompl && form.whatsappCompl.length > 0) {
+			ionicToast.show('Whatsapp inválido', 'bottom', true, 2500);
+			return;
+		}
+		CadastroPJService.merge(form);
+		$state.go('cadastroPJ-Passo2');
+	};
+	$scope.passo3 = function(form) {
+		CadastroPJService.merge(form);
+		$state.go('cadastroPJ-Passo3');
+	};
+    //$scope.data = { "municipios" : [], "search" : '' };
+
+	$scope.searchMunicipio = function(query,uf) {
+		return MunicipioDataService.searchMunicipio(query,uf);/*.then(
+			function(matches) {
+				return matches;
+			}
+		);*/
+	};
+	$scope.$watch("cadastro.telefone", function(newValue, oldValue){
+
+        if (newValue && newValue.length > 11){
+            $scope.cadastro.telefone = oldValue;
+        }
+    });
+	$scope.salvar = function(form) {
+		if (form.email != form.confirmaEmail) {
+			ionicToast.show('E-mail e confirmação de e-mail são diferentes', 'bottom', true, 2500);
+			return;
+		}
+		if (form.senha != form.confirmaSenha) {
+			ionicToast.show('Senha e confirmação de senha são diferentes', 'bottom', true, 2500);
+			return;
+		}
+		CadastroPJService.merge(form);
+		$scope.form = CadastroPJService.save($scope.sucessoSalvar,$scope.errorSalvar);
+	};
+	$scope.sucessoSalvar = function(responseData) {
+		if (responseData.result) {
+			$ionicLoading.show({ template: 'Operação realizada com sucesso!', noBackdrop: true, duration: 2000 });
+			$state.go('sucesso');
+		} else {
+			$ionicLoading.show({ template: 'Falha ao salvar os dados.Mensagem:'+responseData.message[0], noBackdrop: true, duration: 2000 });
+		}
+	};
+	$scope.errorSalvar = function(message) {
+		$ionicLoading.show({ template: 'Falha ao salvar os dados.Mensagem:'+message, noBackdrop: true, duration: 2000 });
+		return;
 	};
 
-})
-   
+
+}])
+
+
 .controller('loginCtrl', ['LoginService', 'sessionService', '$scope', '$ionicModal','$state', '$ionicLoading',
     function(LoginService,sessionService, $scope, $ionicModal, $state, $ionicLoading) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {

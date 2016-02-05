@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.azure-mobile.net http://localhost:1337 http://ajax.aspnetcdn.com *.ionicframework.com">    
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline' http://code.ionicframework.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.azure-mobile.net http://localhost:1337 http://localhost:* http://ajax.aspnetcdn.com http://code.ionicframework.com;">    
     <title>Nota Piauiense</title>
 
     <style>
@@ -24,6 +24,13 @@
     <script src="lib/lodash/lodash.min.js"></script> 
     <script src="lib/ion-autocomplete/dist/ion-autocomplete.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.min.js"></script> 
+    <script src="lib/cpf_cnpj/build/cpf.min.js"></script>    
+    <script src="lib/cpf_cnpj/build/cnpj.min.js"></script>    
+    <script src="lib/ng-cpf-cnpj/lib/ngCpfCnpj.js"></script>    
+    <script src="lib/angular-ui-utils/index.js"></script>    
+    <script src="lib/angular-ui-mask/dist/mask.min.js"></script>
+    <script src="lib/angularValidateWithToast/angularValidateWithToast.js"></script>
+    <script src="lib/ionic-toast/dist/ionic-toast.bundle.min.js"></script> 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
     <link href="lib/ion-autocomplete/dist/ion-autocomplete.css" rel="stylesheet">

@@ -175,7 +175,123 @@ angular.module('app.services', [])
    
  }])
 
+.factory('CadastroPFService', ['$http', function($http){
+    var cadastroPFService = {};
 
+    cadastroPFService.cadastro = {};
+
+    var listSrv = {
+      merge: function (value) {
+
+         cadastroPFService.cadastro = angular.extend(cadastroPFService.cadastro, value);
+      },
+      get: function() {
+        return cadastroPFService.cadastro;
+      },
+      save: function(callback,callbackError){
+        var parameter = { "nome": cadastroPFService.cadastro.nome,
+                          "nomeMae": cadastroPFService.cadastro.nomeMae,
+                          "CPF": cadastroPFService.cadastro.CPF,
+                          "dataNascimento": cadastroPFService.cadastro.dataNascimento,
+                          "dddFone": cadastroPFService.cadastro.dddTelefone,
+                          "telefone": cadastroPFService.cadastro.telefone,
+                          "dddCelular": cadastroPFService.cadastro.dddCelular,
+                          "celular": cadastroPFService.cadastro.celular,
+                          "dddWhatsapp": cadastroPFService.cadastro.dddWhatsapp,
+                          "whatsapp": cadastroPFService.cadastro.whatsapp,
+                          "CEP": cadastroPFService.cadastro.CEP,
+                          "logradouro": cadastroPFService.cadastro.logradouro,
+                          "endereco": cadastroPFService.cadastro.endereco,
+                          "numero": cadastroPFService.cadastro.numero,
+                          "complemento": cadastroPFService.cadastro.complemento,
+                          "bairro": cadastroPFService.cadastro.bairro,
+                          "municipio": cadastroPFService.cadastro.municipio[0],
+                          "UF": cadastroPFService.cadastro.uf,
+                          "senha": cadastroPFService.cadastro.senha,
+                          "confirmaSenha": cadastroPFService.cadastro.confirmaSenha,
+                          "fraseSeguranca": cadastroPFService.cadastro.fraseSeguranca,
+                          "lembreteSenha": cadastroPFService.cadastro.lembreteSenha };
+        return $http.post('http://webas.sefaz.pi.gov.br/npservices-homolog/usuarioPF/new', parameter, {headers: {'Content-Type': 'application/json',
+                                                                                                                 'Access-Control-Allow-Origin':'*'} })
+        .then(function(response) {
+                var responseData =   {
+                    "result" : response.data.success,
+                    "message": response.data.messages,
+                };
+                // success
+                return callback(responseData);
+        },
+        function(data, status) { // optional
+                // failed
+                return callbackError(status);
+        });
+      }
+    };
+
+
+
+    return listSrv;
+}])
+
+
+
+.factory('CadastroPJService',['$http', function($http){
+    var cadastroPJService = {};
+
+    cadastroPJService.cadastro = {};
+
+    var listSrv = {
+      merge: function (value) {
+
+         cadastroPJService.cadastro = angular.extend(cadastroPJService.cadastro, value);
+      },
+      get: function() {
+        return cadastroPJService.cadastro;
+      },
+      save: function(callback,callbackError){
+        var parameter = { "razaoSocial": cadastroPJService.cadastro.razaoSocial,
+                          "CNPJ": cadastroPJService.cadastro.CNPJ,
+                          "representanteLegal": cadastroPJService.cadastro.representanteLegal,
+                          "CPFrepresentante": cadastroPJService.cadastro.CPFrepresentante,
+                          "dddFone": cadastroPJService.cadastro.dddTelefone,
+                          "telefone": cadastroPJService.cadastro.telefone,
+                          "dddCelular": cadastroPJService.cadastro.dddCelular,
+                          "celular": cadastroPJService.cadastro.celular,
+                          "dddWhatsapp": cadastroPJService.cadastro.dddWhatsapp,
+                          "whatsapp": cadastroPJService.cadastro.whatsapp,
+                          "CEP": cadastroPJService.cadastro.CEP,
+                          "logradouro": cadastroPJService.cadastro.logradouro,
+                          "endereco": cadastroPJService.cadastro.endereco,
+                          "numero": cadastroPJService.cadastro.numero,
+                          "complemento": cadastroPJService.cadastro.complemento,
+                          "bairro": cadastroPJService.cadastro.bairro,
+                          "municipio": cadastroPJService.cadastro.municipio[0],
+                          "UF": cadastroPJService.cadastro.uf,
+                          "senha": cadastroPJService.cadastro.senha,
+                          "confirmaSenha": cadastroPJService.cadastro.confirmaSenha,
+                          "fraseSeguranca": cadastroPJService.cadastro.fraseSeguranca,
+                          "lembreteSenha": cadastroPJService.cadastro.lembreteSenha };
+        return $http.post('http://webas.sefaz.pi.gov.br/npservices-homolog/usuarioPJ/new', parameter, {headers: {'Content-Type': 'application/json',
+                                                                                                                 'Access-Control-Allow-Origin':'*'} })
+        .then(function(response) {
+                var responseData =   {
+                    "result" : response.data.data.status,
+                    "message": response.data.data.messages,
+                };
+                // success
+                return callback(responseData);
+        },
+        function(data, status) { // optional
+                // failed
+                return callbackError(status);
+        });
+      }
+    };
+
+
+
+    return listSrv;
+}])
 
 .service('BlankService', [function(){
 

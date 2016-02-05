@@ -1,0 +1,41 @@
+<ion-view title="Cadastro - Passo 3">
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-arrow-left-c" ng-click="passo2voltar()">
+        </button>
+    </ion-nav-buttons>    
+    <ion-nav-buttons side="right">
+    </ion-nav-buttons>    
+   <ion-content padding="'true'" scroll="false" class="has-header" ng-controller="cadastroPJCtrl">
+        <form class="list" id="form" ng-model="cadastro" novalidate>
+            <ion-list>
+                <label class="item item-input">
+                    <span class="input-label">E-mail</span>
+                    <input type="text" placeholder="" name="email" ng-model="cadastro.email" bsy-form-validate="emailErrorTips" ng-pattern="/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Confirma e-mail</span>
+                    <input type="text" placeholder="" name="confirmaEmail" ng-model="cadastro.confirmaEmail" bsy-form-validate="confirmaEmailErrorTips" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Senha</span>
+                    <input type="password" placeholder="" name="senha" ng-model="cadastro.senha" bsy-form-validate="senhaErrorTips" ng-minlength="6" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Confirma senha</span>
+                    <input type="password" placeholder="" name="confirmaSenha" ng-model="cadastro.confirmaSenha" bsy-form-validate="confirmaSenhaErrorTips" ng-minlength="6" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Frase de segurança</span>
+                    <input type="text" placeholder="" name="fraseSeguranca" ng-model="cadastro.fraseSeguranca" bsy-form-validate="fraseSegurancaErrorTips" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Lembrete de senha</span>
+                    <input type="text" placeholder="" name="lembreteSenha" ng-model="cadastro.lembreteSenha" bsy-form-validate="lembreteSenhaErrorTips" required>
+                </label>
+            </ion-list>
+            <div class="spacer" style="width: 300px; height: 47px;"></div>
+            <button class="button button-stable button-block content-user button-positive" check-form ng-click="salvar(cadastro)">Salvar
+            </button>
+        </form>
+    </ion-content>
+</ion-view>

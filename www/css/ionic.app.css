@@ -147,3 +147,7 @@ bar.bar-custom, bar.bar-custom .bar.bar-positive, .bar-custom .nav-bar-block ion
   background: #e42112 !important;
 }
 
+label.has-error {
+  border-bottom: 3px solid red !important;
+}
+

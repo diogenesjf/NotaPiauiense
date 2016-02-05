@@ -4,42 +4,44 @@
         </button>
     </ion-nav-buttons>    
     <ion-nav-buttons side="right">
-        <button class="button button-icon button-clear ion-arrow-right-c" ng-click="proximo()">
-        </button>
     </ion-nav-buttons>    
-    <ion-content padding="'true'" scroll="false" class="has-header">
-        <form class="list">
+    <ion-content padding="'true'" scroll="false" class="has-header" ng-controller="cadastroCtrl">
+        <form class="list" name="form" ng-model="cadastro" novalidate>
             <ion-list>
                 <label class="item item-input">
-                    <span class="input-label">Name</span>
-                    <input type="text" placeholder="">
+                    <span class="input-label">Nome</span>
+                    <input type="text" placeholder="" name="nome" ng-model="cadastro.nome" bsy-form-validate="nomeErrorTips" required>
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Nome da Mãe</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" name="nomeMae" ng-model="cadastro.nomeMae" bsy-form-validate="nomeMaeErrorTips" required>
                 </label>
                 <label class="item item-input">
                     <span class="input-label">CPF</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" name="CPF" ng-model="cadastro.CPF" ng-cpf ui-mask="999.999.999-99" bsy-form-validate="cpfErrorTips" required>
                 </label>
                 <label class="item item-select">
                     <span class="input-label">Data de nascimento</span>
-                    <select></select>
+                    <ionic-datepicker input-obj="dataNascimento" ng-model="cadastro.dataNascimento" >
+                      <button class="button button-block button-clear"> {{dataNascimentoSelected | date:'dd/MM/yyyy'}}</button>
+                    </ionic-datepicker>
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Telefone</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" name="telefoneCompl" ng-model="cadastro.telefoneCompl" ui-mask="(99) 99999999" ng-pattern="/^[0-9]{2}[0-9]{4}-?[0-9]{4}$/" bsy-form-validate="telefoneErrorTips" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Celular</span>
+                    <input type="text" placeholder="" name="celularCompl" ng-model="cadastro.celularCompl" ui-mask="(99) 99999999?9" ng-pattern="/^[0-9]{2}[0-9]{4,5}-?[0-9]{4}$/" bsy-form-validate="celularErrorTips" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Whatsapp</span>
+                    <input type="text" placeholder="" name="whatsappCompl" ng-model="cadastro.whatsappCompl" ui-mask="(99) 99999999?9" ng-pattern="/^[0-9]{2}[0-9]{4,5}-?[0-9]{4}$/" bsy-form-validate="whatsappErrorTips">
                 </label>
             </ion-list>
-            <label class="item item-input">
-                <span class="input-label">Celular</span>
-                <input type="text" placeholder="">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">Whatsapp</span>
-                <input type="text" placeholder="">
-            </label>
-        </form>
         <div class="spacer" style="width: 300px; height: 30px;"></div>
+        <button class="button button-stable button-block content-user button-positive" check-form ng-click="passo2(cadastro)">Próximo
+        </button>
+        </form>
     </ion-content>
 </ion-view>

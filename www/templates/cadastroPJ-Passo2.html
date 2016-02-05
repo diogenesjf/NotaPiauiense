@@ -1,0 +1,64 @@
+<ion-view title="Cadastro - Passo 2">
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-arrow-left-c" ng-click="passo1()">
+        </button>
+    </ion-nav-buttons>    
+    <ion-nav-buttons side="right">
+    </ion-nav-buttons>    
+   <ion-content padding="'true'" scroll="false" class="has-header" ng-controller="cadastroPJCtrl">
+        <form class="list" id="form" ng-model="cadastro" novalidate>
+            <ion-list>
+                <label class="item item-input">
+                    <span class="input-label">CEP</span>
+                    <input type="text" placeholder="" name="CEP" ng-model="cadastro.CEP" ui-mask="99999-999" bsy-form-validate="cepErrorTips" required>
+                </label>
+                <label class="item item-select">
+                    <span class="input-label">Logradouro</span>
+                    <select name="logradouro" ng-model="cadastro.logradouro" bsy-form-validate="logradouroErrorTips">
+                        <option ng-repeat="item in logradouros.tiposLogradouro"
+                                value="{{item.id}}">
+                          {{item.value}}
+                        </option>
+                    </select>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Endereço</span>
+                    <input type="text" placeholder="" name="endereco" ng-model="cadastro.endereco" bsy-form-validate="enderecoErrorTips" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Número</span>
+                    <input type="text" placeholder="" name="numero" ng-model="cadastro.numero" bsy-form-validate="numeroErrorTips" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Complemento</span>
+                    <input type="text" placeholder="" name="complemento" ng-model="cadastro.complemento" bsy-form-validate="complementoErrorTips">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Bairro</span>
+                    <input type="text" placeholder="" name="bairro" ng-model="cadastro.bairro" bsy-form-validate="bairroErrorTips" required>
+                </label>
+                <label class="item item-select">
+                    <span class="input-label">UF</span>
+                    <select name="uf" ng-model="cadastro.uf" bsy-form-validate="ufErrorTips" required>
+                        <option ng-repeat="item in ufs.ufs"
+                                value="{{item.id}}">
+                          {{item.value}}
+                        </option>
+                    </select>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Município</span>
+                    <i class="icon ion-ios7-search placeholder-icon"></i>
+                    <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" name="municipio" ng-model="cadastro.municipio" items-method="searchMunicipio(query,cadastro.uf)" 
+                    item-value-key="codigo" item-view-value-key="descricao" max-selected-items="1"
+                    placeholder="Digite o município ..." select-items-label="Selecione..." 
+                    selected-items-label="Selecionado:" cancel-label="Voltar"/>
+                    
+                </label>
+            </ion-list>
+            <div class="spacer" style="width: 300px; height: 16px;"></div>
+            <button class="button button-stable button-block content-user button-positive" check-form ng-click="passo3(cadastro)">Próximo
+            </button>
+        </form>
+    </ion-content>
+</ion-view>

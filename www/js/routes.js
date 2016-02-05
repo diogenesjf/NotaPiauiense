@@ -17,13 +17,18 @@ angular.module('app.routes', [])
     })
         
       
+    .state('cadastro-Escolha', {
+      url: '/cadEscolha',
+      templateUrl: 'templates/cadastroEscolha.html',
+      controller: 'cadastroCtrl'
+    })
     
       
         
     .state('cadastro-Passo1', {
       url: '/cadPasso1',
       templateUrl: 'templates/cadastro-Passo1.html',
-      controller: 'cadastro-Passo1Ctrl'
+      controller: 'cadastroCtrl'
     })
         
       
@@ -33,18 +38,43 @@ angular.module('app.routes', [])
     .state('cadastro-Passo2', {
       url: '/cadPasso2',
       templateUrl: 'templates/cadastro-Passo2.html',
-      controller: 'cadastro-Passo2Ctrl'
+      controller: 'cadastroCtrl'
+    })
+        
+      
+    .state('cadastro-Passo3', {
+      url: '/cadPasso3',
+      templateUrl: 'templates/cadastro-Passo3.html',
+      controller: 'cadastroCtrl'
+    })
+  
+      
+        
+        
+    .state('cadastroPJ-Passo1', {
+      url: '/cadPJPasso1',
+      templateUrl: 'templates/cadastroPJ-Passo1.html',
+      controller: 'cadastroPJCtrl'
     })
         
       
     
       
         
-    .state('cadastro-Passo3', {
-      url: '/cadPasso3',
-      templateUrl: 'templates/cadastro-Passo3.html',
-      controller: 'cadastro-Passo3Ctrl'
+    .state('cadastroPJ-Passo2', {
+      url: '/cadPJPasso2',
+      templateUrl: 'templates/cadastroPJ-Passo2.html',
+      controller: 'cadastroPJCtrl'
     })
+        
+      
+    .state('cadastroPJ-Passo3', {
+      url: '/cadPJPasso3',
+      templateUrl: 'templates/cadastroPJ-Passo3.html',
+      controller: 'cadastroPJCtrl'
+    })
+    
+      
         
       
     
