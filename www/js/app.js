@@ -7,9 +7,8 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'ionic-datepicker', 'ionic-toast', 'angularValidateWithToast',
                        'ion-profile-picture','ion-autocomplete','ngCookies','ngCordova','ngCpfCnpj',
-                       'ui.mask', 'app.controllers', 'app.routes', 'app.services', 'app.servicesDB',
-                       'app.servicesJson', 'app.directives'])
-
+                       'ui.mask','ng-currency', 'app.controllers', 'app.routes', 'app.services', 'app.servicesDB',
+                       'app.servicesJson', 'app.directives','app.constants'])
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -22,4 +21,4 @@ angular.module('app', ['ionic', 'ionic-datepicker', 'ionic-toast', 'angularValid
       StatusBar.styleDefault();
     }
   });
-})
+});

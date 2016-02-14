@@ -1,4 +1,10 @@
 {
   "name": "NotaPiauiense",
-  "app_id": ""
+  "app_id": "",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://webas.sefaz.pi.gov.br/npservices-homolog"
+    }
+  ]  
 }

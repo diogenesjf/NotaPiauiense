@@ -475,17 +475,33 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 
 }])
    
-.controller('minhasNotasCtrl', ['NotasListFactory','dataNotasLoad',
+.controller('minhasNotasCtrl', ['JsonFactory','NotasListFactory','dataNotasLoad',
   '$scope',
   '$state',
   'sessionService',
   '$ionicModal',
   'appDBBridge',
   '$timeout',
-  '$ionicLoading', '$ionicPopup',
-    function(NotasListFactory, dataNotasLoad, $scope, $state, sessionService,  $ionicModal, appDBBridge, $timeout, $ionicLoading, $ionicPopup) {
+  '$ionicLoading','ionicToast', '$ionicPopup','$filter',
+    function(JsonFactory,NotasListFactory, dataNotasLoad, $scope, $state, sessionService,  $ionicModal, appDBBridge, $timeout, $ionicLoading,ionicToast, $ionicPopup,$filter) {
 	$scope.dataNotas = [];
+	$scope.cadastroNota = {};
+	$scope.dataSelected = '';
 
+	$scope.cnpjErrorTips = {
+      required: 'O CNPJ é obrigatório',
+      cnpj: 'O CNPJ é inválido'
+    };
+	$scope.numDocumentoErrorTips = {
+      required: 'O Número do documento é obrigatório'
+    };
+	$scope.tipoDocumentoErrorTips = {
+      required: 'O Tipo de documento é obrigatório'
+    };
+	$scope.valorErrorTips = {
+      required: 'O Valor é obrigatório',
+      pattern: 'O Valor é inválido'
+    };
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = true;
 		$scope.menuData.menuRightIconExit = false;
@@ -540,7 +556,7 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
     };
     $scope.isActive = function(type) {
         return type === $scope.active;
-    };  
+    };
 
 	$scope.isOnline = function() {
         var networkState = null;
@@ -586,6 +602,7 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 
  		var weekDaysList = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
  		var monthList = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+		$scope.tipos = JsonFactory.getTipoNotas();
  		$scope.dataNota = {
 	      titleLabel: 'Data',  //Optional
 	      todayLabel: 'Hoje',  //Optional
@@ -613,11 +630,12 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 	    };
 
 		$scope.datePickerCallback = function (val) {
-		  if (typeof(val) === 'undefined') {
-		    console.log('No date selected');
-		  } else {
-		    console.log('Selected date is : ', val)
-		  }
+		if (typeof(val) === 'undefined') {
+			console.log('No date selected');
+		} else {
+			$scope.dataSelected = val;
+			console.log('Selected date is : ', val);
+		}
 		};
 
       $scope.showAddChangeDialog = function(action) {
@@ -670,7 +688,15 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
 		$scope.leaveDetailDialog();
 	};
 	$scope.reclamar = function(form) {
-		$scope.leaveDetailDialog();
+        var newItem = {};
+        // Add values from form to object
+        newItem.cpfCnpj = form.cnpj.replace(/[^0-9 ]/g, "");
+        newItem.numDocumento = form.docNumber;
+        newItem.tipoDocumento = form.type;
+        newItem.dataNota = form.date;
+        newItem.valor = form.value;
+         // Save new list in scope and factory
+        NotasListFactory.reclamarNota($scope.user.login,$scope.user.tokenSessao,newItem, $scope.successSaveNotas,$scope.errorSaveNotas);
 	};
 
       // Define item buttons
@@ -680,34 +706,50 @@ app.controller('mainCtrl', function($scope, $ionicNavBarDelegate) {
       // Used to cache the empty form for Edit Dialog
       $scope.saveEmpty = function(form) {
         $scope.form = angular.copy(form);
-      }
+      };
 
       $scope.addItem = function(form) {
         var newItem = {};
+		if (!$scope.dataSelected || typeof($scope.dataSelected) === 'undefined' ) {
+			ionicToast.show('Data  inválida', 'bottom', true, 2500);
+			return;
+		} else {
+			newItem.dataNota = $filter('date')($scope.dataSelected, 'dd/MM/yyyy');
+		}
         // Add values from form to object
         newItem.cpfCnpj = form.cpfCnpj.$modelValue;
-        newItem.razaoSocial = form.razaoSocial.$modelValue;
         newItem.numDocumento = form.numDocumento.$modelValue;
-        newItem.serie = form.serie.$modelValue;
-        newItem.dataNota = $scope.dataNota.inputDate;
-        // Save new list in scope and factory
-        $scope.list.push(newItem);
-        NotasListFactory.setList($scope.list);
-        // Close dialog
-        $scope.leaveAddChangeDialog();
+        newItem.tipoDocumento = form.tipoDocumento.$modelValue;
+        newItem.valor = form.valor.$$rawModelValue;
+         // Save new list in scope and factory
+        NotasListFactory.newNota($scope.user.login,$scope.user.tokenSessao,newItem, $scope.successSaveNotas,$scope.errorSaveNotas);
       };
+
+	$scope.successSaveNotas = function(responseData) {
+		if (responseData.result) {
+			ionicToast.show('Operação realizada com sucesso!', 'bottom', true, 2500);
+			$scope.leaveAddChangeDialog();
+			$scope.leaveDetailDialog();
+		} else {
+			ionicToast.show('Falha ao salvar os dados.Mensagem:'+responseData.message[0], 'bottom', true, 2500);
+		}
+	};
+	$scope.errorSaveNotas = function(message) {
+		ionicToast.show('Falha ao salvar os dados.Mensagem:'+message, 'bottom', true, 2500);
+		return;
+	};
 
 
 }])
    
 .controller('consultaCtrl',  ['NotasListFactory',
-							  '$scope', 
-							  '$state',
-							  'sessionService',
-							  '$ionicModal',
-							  'appDBBridge',
-							  '$timeout',
-							  '$ionicLoading', '$ionicPopup',
+								'$scope',
+								'$state',
+								'sessionService',
+								'$ionicModal',
+								'appDBBridge',
+								'$timeout',
+								'$ionicLoading', '$ionicPopup',
     function(NotasListFactory, $scope, $state, sessionService, $ionicModal, appDBBridge, $timeout, $ionicLoading, $ionicPopup) {
 	$scope.$on('$ionicView.beforeEnter', function (e, data) {
 		$scope.menuData.menuLeftIconOn = true;

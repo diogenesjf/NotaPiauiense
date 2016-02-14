@@ -1,17 +1,18 @@
-angular.module('app.services', [])
+angular.module('app.services', ['app.constants'])
 
 .factory('BlankFactory', [function(){
 
 }])
   
-  .factory('ContaCorrenteListFactory',['$http',function($http){
+  .factory('ContaCorrenteListFactory',['$http','ApiEndpoint',function($http, ApiEndpoint){
 
     var listSrv = {
       getContaCorrente: function(loginP,tokenSessaoP,callback,callbackError){
 //        $http.defaults.headers.post["Content-Type"] = "application/json";
         var parameter = { "login" : loginP,
                           "tokenSessao": tokenSessaoP };
-        return $http.post('http://webas.sefaz.pi.gov.br/npservices-homolog/contaCorrente', parameter, {headers: {'Content-Type': 'application/json'} })
+        return $http.post(ApiEndpoint.url + '/contaCorrente', parameter, {headers: {'Content-Type': 'application/json',
+                                                                                                                 'Access-Control-Allow-Origin':'*'} })
         .then(function(data) {
                 // success
                 return callback(data.data.data.conta);
@@ -25,7 +26,7 @@ angular.module('app.services', [])
     return listSrv;
   }])
 
-  .factory('NotasListFactory',['$http',function($http){
+  .factory('NotasListFactory',['$http','ApiEndpoint',function($http, ApiEndpoint){
 
     var list = [];
     var listStore = localStorage.getItem("list");
@@ -49,7 +50,15 @@ angular.module('app.services', [])
 //        $http.defaults.headers.post["Content-Type"] = "application/json";
         var parameter = { "login" : login,
                           "tokenSessao": tokenSessao };
-        return $http.post('http://webas.sefaz.pi.gov.br/npservices-homolog/notas/list', parameter, {headers: {'Content-Type': 'application/json'} })
+//        $http.defaults.headers.post["Content-Type"] = "application/json";
+        /*return $http({
+            url: ApiEndpoint.url + '/notas/list',
+            method: "POST",
+            data: { "login" : login,
+                    "tokenSessao": tokenSessao }
+        })*/
+        return $http.post(ApiEndpoint.url + '/notas/list', parameter, {headers: {'Content-Type': 'application/json', 'Accept': 'application/json',
+                                                                                                                 'Access-Control-Allow-Origin':'*'} })
         .then(function(response) {
                 var responseData =   {
                     "filter" : '',
@@ -72,11 +81,60 @@ angular.module('app.services', [])
                           "tipoDocumento": findObject.tipoDocumento,
                           "numDocumento": findObject.numDocumento,
                           "data": findObject.dataNota };
-        return $http.post('http://webas.sefaz.pi.gov.br/npservices-homolog/notas/find', parameter, {headers: {'Content-Type': 'application/json'} })
+        return $http.post(ApiEndpoint.url + '/notas/find', parameter, {headers: {'Content-Type': 'application/json',
+                                                                                                                 'Access-Control-Allow-Origin':'*'} })
         .then(function(response) {
                 var responseData =   {
                     "filter" : '',
                     "notas": response.data.data.notas,
+                };
+                // success
+                return callback(responseData);
+        },
+        function(data, status) { // optional
+                // failed
+                return callbackError(status);
+        });
+      },
+      newNota: function(login,tokenSessao,notaObject,callback,callbackError){
+        var parameter = { "login" : login,
+                          "tokenSessao": tokenSessao,
+                          "cpfCnpj": notaObject.cpfCnpj,
+                          "tipoDocumento": notaObject.tipoDocumento,
+                          "numDocumento": notaObject.numDocumento,
+                          "data": notaObject.dataNota,
+                          "valor": notaObject.valor,
+                          "anexo": notaObject.anexo };
+        return $http.post(ApiEndpoint.url + '/notas/new', parameter, {headers: {'Content-Type': 'application/json',
+                                                                                                                 'Access-Control-Allow-Origin':'*'} })
+        .then(function(response) {
+                var responseData =   {
+                    "result" : response.data.success,
+                    "message": response.data.messages,
+                };
+                // success
+                return callback(responseData);
+        },
+        function(data, status) { // optional
+                // failed
+                return callbackError(status);
+        });
+      },
+      reclamarNota: function(login,tokenSessao,notaObject,callback,callbackError){
+        var parameter = { "login" : login,
+                          "tokenSessao": tokenSessao,
+                          "cpfCnpj": notaObject.cpfCnpj,
+                          "tipoDocumento": notaObject.tipoDocumento,
+                          "numDocumento": notaObject.numDocumento,
+                          "data": notaObject.dataNota,
+                          "valor": notaObject.valor,
+                          "anexo": notaObject.anexo };
+        return $http.post(ApiEndpoint.url + '/notas/reclamar', parameter, {headers: {'Content-Type': 'application/json',
+                                                                                                                 'Access-Control-Allow-Origin':'*'} })
+        .then(function(response) {
+                var responseData =   {
+                    "result" : response.data.success,
+                    "message": response.data.messages,
                 };
                 // success
                 return callback(responseData);
@@ -91,13 +149,14 @@ angular.module('app.services', [])
   }])
 
 
-  .factory('CuponsListFactory',['$http',function($http){
+  .factory('CuponsListFactory',['$http','ApiEndpoint',function($http, ApiEndpoint){
 
     var listSrv = {
       getCupons: function(login,tokenSessao,callback,callbackError){
         var parameter = { "login" : login,
                           "tokenSessao": tokenSessao};
-        return $http.post('http://webas.sefaz.pi.gov.br/npservices-homolog/cupons/list', parameter, {headers: {'Content-Type': 'application/json'} })
+        return $http.post(ApiEndpoint.url + '/cupons/list', parameter, {headers: {'Content-Type': 'application/json',
+                                                                                                                 'Access-Control-Allow-Origin':'*'} })
         .then(function(response) {
                 var responseData =   {
                     "filter" : '',
@@ -115,13 +174,14 @@ angular.module('app.services', [])
     return listSrv;
   }])
 
-  .factory('SorteioListFactory',['$http',function($http){
+  .factory('SorteioListFactory',['$http','ApiEndpoint',function($http, ApiEndpoint){
 
     var listSrv = {
        getSorteios: function(login,tokenSessao,callback,callbackError){
         var parameter = { "login" : login,
                           "tokenSessao": tokenSessao};
-        return $http.post('http://webas.sefaz.pi.gov.br/npservices-homolog/sorteios/list', parameter, {headers: {'Content-Type': 'application/json'} })
+        return $http.post(ApiEndpoint.url + '/sorteios/list', parameter, {headers: {'Content-Type': 'application/json',
+                                                                                                                 'Access-Control-Allow-Origin':'*'} })
         .then(function(response) {
                 var responseData =   {
                     "filter" : '',
@@ -140,7 +200,7 @@ angular.module('app.services', [])
   }])
 
 
-.factory('LoginService', ['$http', function($http){
+.factory('LoginService', ['$http','ApiEndpoint', function($http, ApiEndpoint){
    return {
       /**
        * [thisUserFiles request for files belonging to this user]
@@ -149,13 +209,22 @@ angular.module('app.services', [])
        * @return {[type]}
        */
       login : function login (cpf,password,callback,callbackError){
-        $http.defaults.headers.post["Content-Type"] = "application/json";
+/*        $http.defaults.headers.post["Content-Type"] = "application/json";
         return $http({
-            url: 'http://webas.sefaz.pi.gov.br/npservices-homolog/login',
+            url: ApiEndpoint.url + '/login',
             method: "POST",
             data: { 'usuario' : cpf,
                     'senha': password }
-        })
+        })*/
+        var headers = {
+          'Access-Control-Allow-Origin' : '*',
+          'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        };
+        var parameter = { "usuario" : cpf,
+                          "senha": password};
+        return $http.post(ApiEndpoint.url + '/login', parameter, headers)
         .then(function(data) {
                 // success
                 return callback(data.data.data.usuario);
@@ -175,7 +244,7 @@ angular.module('app.services', [])
    
  }])
 
-.factory('CadastroPFService', ['$http', function($http){
+.factory('CadastroPFService', ['$http','ApiEndpoint', function($http, ApiEndpoint){
     var cadastroPFService = {};
 
     cadastroPFService.cadastro = {};
@@ -211,7 +280,7 @@ angular.module('app.services', [])
                           "confirmaSenha": cadastroPFService.cadastro.confirmaSenha,
                           "fraseSeguranca": cadastroPFService.cadastro.fraseSeguranca,
                           "lembreteSenha": cadastroPFService.cadastro.lembreteSenha };
-        return $http.post('http://webas.sefaz.pi.gov.br/npservices-homolog/usuarioPF/new', parameter, {headers: {'Content-Type': 'application/json',
+        return $http.post(ApiEndpoint.url + '/usuarioPF/new', parameter, {headers: {'Content-Type': 'application/json',
                                                                                                                  'Access-Control-Allow-Origin':'*'} })
         .then(function(response) {
                 var responseData =   {
@@ -235,7 +304,7 @@ angular.module('app.services', [])
 
 
 
-.factory('CadastroPJService',['$http', function($http){
+.factory('CadastroPJService',['$http','ApiEndpoint', function($http, ApiEndpoint){
     var cadastroPJService = {};
 
     cadastroPJService.cadastro = {};
@@ -271,7 +340,7 @@ angular.module('app.services', [])
                           "confirmaSenha": cadastroPJService.cadastro.confirmaSenha,
                           "fraseSeguranca": cadastroPJService.cadastro.fraseSeguranca,
                           "lembreteSenha": cadastroPJService.cadastro.lembreteSenha };
-        return $http.post('http://webas.sefaz.pi.gov.br/npservices-homolog/usuarioPJ/new', parameter, {headers: {'Content-Type': 'application/json',
+        return $http.post(ApiEndpoint.url + '/usuarioPJ/new', parameter, {headers: {'Content-Type': 'application/json',
                                                                                                                  'Access-Control-Allow-Origin':'*'} })
         .then(function(response) {
                 var responseData =   {
